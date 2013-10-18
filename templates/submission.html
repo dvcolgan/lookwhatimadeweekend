@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load custom_tags %}
+{% load bootstrap %}
+
+{% block title %}Submit your entry for LWIMW {{ contest.number }}{% endblock %}
+
+{% block body_class %}login{% endblock %}
+ 
+{% block content %}
+<div class="post">
+    {% if form %}
+        <h2>Submit your entry for LWIMW {{ contest.number }}</h2>
+        <form method="POST">{% csrf_token %}
+            {{ form|bootstrap }}
+            <input type="submit" class="btn btn-primary btn-lg" value="Submit" />
+        </form>
+    {% else %}
+    <h2>{{ submission.title }}</h2>
+    <h3>{{ submission.user.username }} &mdash; {{ submission.category }}</h3>
+
+    {{ submission.comments|markdown }}
+
+    <h3>Links to {{ submission.user.username }}'s Submission:</h3>
+    <p><a target="_blank" rel="nofollow" href="{{ submission.link_1 }}">{{ submission.link_1 }}</a></p>
+    {% if submission.link_2 %}<p><a target="_blank" rel="nofollow" href="{{ submission.link_2 }}">{{ submission.link_2 }}</a></p>{% endif %}
+    {% if submission.link_3 %}<p><a target="_blank" rel="nofollow" href="{{ submission.link_3 }}">{{ submission.link_3 }}</a></p>{% endif %}
+    {% if submission.link_4 %}<p><a target="_blank" rel="nofollow" href="{{ submission.link_4 }}">{{ submission.link_4 }}</a></p>{% endif %}
+    {% if submission.link_5 %}<p><a target="_blank" rel="nofollow" href="{{ submission.link_5 }}">{{ submission.link_5 }}</a></p>{% endif %}
+    {% endif %}
+</div>
+{% endblock %}
+
+

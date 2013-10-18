@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% load bootstrap %}
+
+{% block title %}Your Account is ready{% endblock %}
+
+{% block body_class %}activation_complete{% endblock %}
+
+{% block content %}
+<div class="post">
+    <h2>Your Account is Active!</h2>
+    <p>Thanks for participating in Look What I Made Weekend!</p>
+    <p><a class="btn btn-lg btn-success" href="{% url 'auth_login' %}">Log In</a></p>
+</div>
+{% endblock %}

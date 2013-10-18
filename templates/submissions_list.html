@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% load bootstrap %}
+
+{% block title %}Submissions for LWIMW {{ contest.number }}{% endblock %}
+
+{% block body_class %}submissions_list{% endblock %}
+
+{% block content %}
+<div class="post">
+    <h2>Look What I Made Weekend {{ contest.number }}</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Creator</th>
+                <th>Category</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for submission in contest.submissions.all %}
+            <tr>
+                <td><a href="{% url 'submission' contest.number submission.user.id %}">{{ submission.title }}</a></td>
+                <td>{{ submission.user }}</td>
+                <td>{{ submission.category }}</td>
+            </tr>
+            {% endfor %}
+    </table>
+</div>
+{% endblock %}
+
+
+

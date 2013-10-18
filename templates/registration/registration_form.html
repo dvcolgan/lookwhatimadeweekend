@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% load bootstrap %}
+
+{% block title %}Create an Account{% endblock %}
+
+{% block body_class %}register{% endblock %}
+
+{% block content %}
+<div class="post">
+    <form method="POST">{% csrf_token %}
+        <h2>Create an Account</h2>
+        {{ form|bootstrap }}
+        <input type="submit" class="btn btn-primary btn-lg" value="Submit" />
+    </form>
+</div>
+{% endblock %}

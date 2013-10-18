@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock %} | Look What I Made Weekend</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Look What I Made Weekend: Make Something, Show People, Be Awesome!">
+    <meta name="author" content="David Colgan">
+
+    <link rel="shortcut icon" href="{{ STATIC_URL }}images/favicon.ico">
+
+    <link href="{{ STATIC_URL }}bootstrap/css/bootstrap.css" rel="stylesheet" media="screen">
+    <link href="{{ STATIC_URL }}css/style.css" rel="stylesheet" media="screen">
+    <!--<link href='http://fonts.googleapis.com/css?family=Patua+One' rel='stylesheet' type='text/css'>-->
+
+    {% block head %}{% endblock %}
+
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css">
+</head>
+<body class="{% block body_class %}{% endblock %}">
+
+
+    <div class="container outerwrap">
+
+        <div class="container innerwrap">
+            <div class="jumbotron header">
+                <h1><a href="{% url 'home' %}"><img src="{{ STATIC_URL }}images/banner.png" alt="Look What I Made Weekend" /></a></h1>
+            </div>
+            <nav class="navbar navbar-default" role="navigation">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-header-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-header-collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="{% url 'home' %}">Home</a></li>
+                        <li><a href="{% url 'guidelines' %}">Guidelines</a></li>
+                        <li><a href="{% url 'irc' %}">IRC</a></li>
+                        <li><a href="{% url 'submissions_list' current_contest.number %}">View Submissions</a></li>
+
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        {% if request.user.is_authenticated %}
+                        <li><a href="{% url 'submission' contest.number request.user.id %}">Your Submission</a></li>
+                        <li><a href="#">Welcome {{ request.user.username }}!</a></li>
+                        <li><a href="{% url 'auth_logout' %}">Logout</a></li>
+                        {% else %}
+                        <li><a href="{% url 'registration_register' %}">Create Account</a></li>
+                        <li><a href="{% url 'auth_login' %}">Log In</a></li>
+                        {% endif %}
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </nav>
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="content">
+                        {% block content %}{% endblock %}
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="sidebar">
+                        <h3>About LWIMW</h3>
+                        <p>Welcome to “Look What I Made Weekend” – where creative and motivated people make something and share the results with each other.</p>
+
+                        <p>It’s pretty simple: you have approximately 48 hours to “make something” over the course of a weekend. To make it time-effective, we recommend you make something small and manageable – i.e. don’t create an entire art exhibit – make one piece instead.</p>
+
+                        <p>What can you make? Pretty much whatever you want – a video game, painting, short film, short screenplay, drawing, sculpture, poem.  You can start a new project or continue an existing one as long as you finish some version of it (it won’t be perfect – that’s not the point) by the end of the weekend.</p>
+
+                        <p>Using this blog, you can post (or share a link or a photo) of what you made, and we all get to enjoy the awesomeness of your creative output!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container footer">
+            Look What I Made Weekend - A Less Boring Production by David Colgan
+        </div>
+    </div>
+
+    <script src='{{ STATIC_URL }}js/jquery.js'></script>
+    <script src="{{ STATIC_URL }}bootstrap/dist/js/bootstrap.js"></script>
+    <script src="{{ STATIC_URL }}js/all-pages.js"></script>
+    {% block foot %}{% endblock %}
+</body>
+</html>
