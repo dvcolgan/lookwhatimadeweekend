@@ -46,7 +46,7 @@
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         {% if request.user.is_authenticated %}
-                        <li><a href="{% url 'submission' contest.number request.user.id %}">Your Submission</a></li>
+                        <li><a href="{% url 'submission' current_contest.number request.user.id %}">Your Submission</a></li>
                         <li><a href="#">Welcome {{ request.user.username }}!</a></li>
                         <li><a href="{% url 'auth_logout' %}">Logout</a></li>
                         {% else %}
