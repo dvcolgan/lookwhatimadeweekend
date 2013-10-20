@@ -53,7 +53,7 @@ class Submission(models.Model):
 
 class Rating(models.Model):
     RATINGS = (
-        (0, 'N/A'),
+        (0, 'Not Applicable'),
         (1, 'One Star'),
         (2, 'Two Stars'),
         (3, 'Three Stars'),
