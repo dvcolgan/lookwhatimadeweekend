@@ -9,20 +9,29 @@
 {% block content %}
 <div class="post">
     <h2>Look What I Made Weekend {{ contest.number }}</h2>
+    <p>Voting is now <strong>open</strong>.</p>
+    {% if can_vote %} 
+        <p>You are eligible to rate others' submissions because you have also submitted.</p>
+    {% else %}
+        <p>You are not eligible to rate others' submissions because you have not submitted.</p>
+    {% endif %}
+
     <table class="table">
         <thead>
             <tr>
                 <th>Title</th>
                 <th>Creator</th>
                 <th>Category</th>
+                <th># Ratings</th>
             </tr>
         </thead>
         <tbody>
-            {% for submission in contest.submissions.all %}
+            {% for submission in submissions %}
             <tr>
                 <td><a href="{% url 'submission' contest.number submission.user.id %}">{{ submission.title }}</a></td>
-                <td>{{ submission.user }}</td>
+                <td><a href="{% url 'profile' submission.user.id %}">{{ submission.user }}</a></td>
                 <td>{{ submission.category }}</td>
+                <td>{{ submission.ratings.count }}</td>
             </tr>
             {% endfor %}
     </table>

@@ -54,11 +54,11 @@ class Submission(models.Model):
 class Rating(models.Model):
     RATINGS = (
         (0, 'N/A'),
-        (1, 'One'),
-        (2, 'Two'),
-        (3, 'Three'),
-        (4, 'Four'),
-        (5, 'Five'),
+        (1, 'One Star'),
+        (2, 'Two Stars'),
+        (3, 'Three Stars'),
+        (4, 'Four Stars'),
+        (5, 'Five Stars'),
     )
     rater = models.ForeignKey(User, related_name='ratings')
     submission = models.ForeignKey(Submission, related_name='ratings')
@@ -68,3 +68,4 @@ class Rating(models.Model):
     refinement = models.PositiveIntegerField(choices=RATINGS)
     artistry = models.PositiveIntegerField(choices=RATINGS)
     overall = models.PositiveIntegerField(choices=RATINGS)
+    comments = models.TextField(blank=True)
