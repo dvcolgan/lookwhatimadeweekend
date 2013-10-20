@@ -27,8 +27,19 @@ DATABASES = {
 }
 SITE_DOMAIN = 'localhost:8000'
 SERVER = 'local'
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+from secret import *
+
+SERVER_EMAIL = 'david@lessboring.com'
+EMAIL_HOST = 'smtp.postmarkapp.com'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = POSTMARK_API_KEY
+EMAIL_HOST_PASSWORD = POSTMARK_API_KEY
+EMAIL_USE_TLS = True
+
+ADMIN_EMAIL_SENDER = SERVER_EMAIL
+DEFAULT_FROM_EMAIL = SERVER_EMAIL
 
 TIME_ZONE = 'America/New_York'
 LANGUAGE_CODE = 'en-us'
@@ -60,7 +71,6 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 
-from secret import SECRET_KEY
 
 import django.conf.global_settings as DEFAULT_SETTINGS
 
