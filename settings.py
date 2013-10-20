@@ -62,6 +62,12 @@ STATICFILES_FINDERS = (
 
 from secret import SECRET_KEY
 
+import django.conf.global_settings as DEFAULT_SETTINGS
+
+TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
+    'lwimw.context_processors.common',
+)
+
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
