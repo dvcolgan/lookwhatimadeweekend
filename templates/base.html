@@ -1,3 +1,4 @@
+{% load custom_tags %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,6 +19,14 @@
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css">
 </head>
 <body class="{% block body_class %}{% endblock %}">
+
+{% if messages %}
+<div class="alert-container">
+    {% for message in messages %}
+    <div{% if message.tags %} class="alert {{ message.tags }}"{% endif %}>{{ message }}</div>
+    {% endfor %}
+</div>
+{% endif %}
 
 
     <div class="container outerwrap">
@@ -41,12 +50,10 @@
                         <li><a href="{% url 'home' %}">Home</a></li>
                         <li><a href="{% url 'guidelines' %}">Guidelines</a></li>
                         <li><a href="{% url 'irc' %}">IRC</a></li>
-                        <li><a href="{% url 'submissions_list' current_contest.number %}">View Submissions</a></li>
 
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         {% if request.user.is_authenticated %}
-                        <li><a href="{% url 'submission' current_contest.number request.user.id %}">Your Submission</a></li>
                         <li><a href="#">Welcome {{ request.user.username }}!</a></li>
                         <li><a href="{% url 'auth_logout' %}">Logout</a></li>
                         {% else %}
@@ -64,23 +71,34 @@
                 </div>
                 <div class="col-sm-4">
                     <div class="sidebar">
+                        <div class="widget">
+                            {% if request.user.is_authenticated %}
+                            <h4>Look What I Made Weekend {{ current_contest.number }}</h4>
+                            <a class="btn btn-success btn-lg btn-block" href="{% url 'submission' current_contest.number request.user.id %}">Edit Your Submission</a>
+                            <a class="btn btn-primary btn-lg btn-block" href="{% url 'submissions_list' current_contest.number %}">View All Submissions</a>
+                            {% endif %}
+                        </div>
 
-                        <form action="http://lookwhatimadeweekend.us7.list-manage.com/subscribe/post?u=d0ff99cbf1c7c20ff56103b8d&amp;id=d226a5b1be"
-                              method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form"
-                              class="validate clearfix" target="_blank" novalidate>
-                            <h4>Want to receive updates on the next LWIMW?</h4>
-                            <input type="email" value="" name="EMAIL" class="email form-control mbs" id="mce-EMAIL" placeholder="Email address" required />
-                            <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="btn btn-primary pull-right" />
-                        </form>
+                        <div class="widget">
+                            <form action="http://lookwhatimadeweekend.us7.list-manage.com/subscribe/post?u=d0ff99cbf1c7c20ff56103b8d&amp;id=d226a5b1be"
+                                method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form"
+                                class="validate clearfix" target="_blank" novalidate>
+                                <h4>Want to receive updates on the next LWIMW?</h4>
 
-                        <h3>About LWIMW</h3>
-                        <p>Welcome to “Look What I Made Weekend” – where creative and motivated people make something and share the results with each other.</p>
+                                <div class="input-group">
+                                    <input type="email" value="" name="EMAIL" class="email form-control" id="mce-EMAIL" placeholder="Email address" required />
+                                    <span class="input-group-btn">
+                                        <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="btn btn-primary" />
+                                    </span>
+                                </div>
+                            </form>
+                        </div>
 
-                        <p>It’s pretty simple: you have approximately 48 hours to “make something” over the course of a weekend. To make it time-effective, we recommend you make something small and manageable – i.e. don’t create an entire art exhibit – make one piece instead.</p>
+                        <div class="widget">
+                            <a class="twitter-timeline" data-dnt="true" href="https://twitter.com/LWIMW" data-widget-id="391998538340503552">Tweets by @LWIMW</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+                        </div>
 
-                        <p>What can you make? Pretty much whatever you want – a video game, painting, short film, short screenplay, drawing, sculpture, poem.  You can start a new project or continue an existing one as long as you finish some version of it (it won’t be perfect – that’s not the point) by the end of the weekend.</p>
-
-                        <p>Using this blog, you can post (or share a link or a photo) of what you made, and we all get to enjoy the awesomeness of your creative output!</p>
                     </div>
                 </div>
             </div>

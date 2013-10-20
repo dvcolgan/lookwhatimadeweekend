@@ -9,6 +9,7 @@ from lwimw.models import *
 from lwimw.forms import *
 from util.functions import *
 from django.contrib.auth import authenticate, login
+from django.contrib import messages
 
 import random
 import math
@@ -39,7 +40,8 @@ def submission(request, number, user_id):
             form.instance.contest = contest
             if form.is_valid():
                 form.save()
-                return HttpResponseRedirect(reverse('submission', args=(contest.number,)))
+                messages.add_message(request, messages.SUCCESS, 'Submission updated successfully!')
+                return HttpResponseRedirect(reverse('submission', args=(contest.number,user_id)))
         else:
             form = SubmissionForm(instance=submission)
 

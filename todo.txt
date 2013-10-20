@@ -1,6 +1,9 @@
-You have 48 hours starting at 9pm Friday to 9pm Sunday to make a thing
-You submit it like in Ludum Dare
-Everyone who submitted can rate others things
-
-
-
+rating of other peoples' entries
+forgot password link
+fix bug with submission
+profile page that shows your entries
+countdown timeer on the top of the site, showing time till contest, time left, time till next contest
+blog entries
+add pictures to everything
+system in place for showing the results - who wins which category
+add an x to close the window

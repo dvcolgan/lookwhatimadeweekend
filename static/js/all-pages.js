@@ -7,6 +7,10 @@ ALL_PAGES = {
 
 $(function() {
   var cl;
+  $('.alert').slideDown();
+  setTimeout((function() {
+    return $('.alert').slideUp();
+  }), 4000);
   cl = $('body').attr('class');
   if (cl && cl in ALL_PAGES) {
     return ALL_PAGES[cl]();

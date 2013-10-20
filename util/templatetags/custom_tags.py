@@ -16,3 +16,7 @@ def setting(name):
 @stringfilter
 def markdown(value):
     return mark_safe(markdown2.markdown(force_unicode(value),safe_mode=True))
+
+@register.filter
+def multiply(value, arg):
+    return value * int(arg)

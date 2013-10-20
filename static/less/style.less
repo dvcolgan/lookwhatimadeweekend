@@ -2,6 +2,26 @@ body {
     background-color: #888;
     background: url(/static/images/tweed.png);
 }
+
+.alert-container {
+    position: absolute;
+    z-index: 1000;
+    left: 50%;
+    margin-left: -300px;
+    width: 600px;
+    .alert {
+        display: none;
+        box-shadow: 0px 0px 8px rgba(0,0,0,0.3);
+        font-size: 20px;
+        text-align: center;
+        &:first-child {
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+    }
+}
+
+
 .outerwrap {
     box-shadow: 0 0 8px black;
     padding: 0;
@@ -43,7 +63,10 @@ body {
     border-left: 1px solid #e8e8e8;
     border-radius: 6px;
     background-color: #f8f8f8;
-    padding: 5px 15px;
+    padding: 15px;
+    .widget {
+        margin-bottom: 20px;
+    }
 }
 
 .content {
@@ -63,3 +86,4 @@ form.narrow {
 .mbs {
     margin-bottom: 6px;
 }
+

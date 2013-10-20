@@ -1,5 +1,6 @@
 import os
 import socket
+from django.contrib.messages import constants as message_constants
 
 PROJECT_DIR = os.path.dirname(__file__)
 
@@ -102,6 +103,14 @@ PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 TEMPLATE_DIRS = (
     os.path.join(PROJECT_ROOT, "templates"),
 )
+
+MESSAGE_TAGS = {
+    message_constants.DEBUG: 'alert-info',
+    message_constants.INFO: 'alert-info',
+    message_constants.SUCCESS: 'alert-success',
+    message_constants.WARNING: 'alert-warning',
+    message_constants.ERROR: 'alert-danger',
+}
 
 INSTALLED_APPS = (
     'django.contrib.auth',
