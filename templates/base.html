@@ -54,7 +54,7 @@
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         {% if request.user.is_authenticated %}
-                        <li><a href="#">Welcome {{ request.user.username }}!</a></li>
+                        <li><a href="{% url 'profile' request.user.id %}">{{ request.user.username|capfirst }}'s Profile</a></li>
                         <li><a href="{% url 'auth_logout' %}">Logout</a></li>
                         {% else %}
                         <li><a href="{% url 'registration_register' %}">Create Account</a></li>
@@ -80,7 +80,7 @@
                         </div>
 
                         <div class="widget">
-                            <form action="http://lookwhatimadeweekend.us7.list-manage.com/subscribe/post?u=d0ff99cbf1c7c20ff56103b8d&amp;id=d226a5b1be"
+                            <form action=""
                                 method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form"
                                 class="validate clearfix" target="_blank" novalidate>
                                 <h4>Want to receive updates on the next LWIMW?</h4>

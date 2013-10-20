@@ -40,7 +40,7 @@ class Submission(models.Model):
     link_4 = models.CharField("Link 4 (Optional)", max_length=255, blank=True)
     link_5 = models.CharField("Link 5 (Optional)", max_length=255, blank=True)
     receive_ratings = models.BooleanField('Allow others to rate my entry', default=True)
-    
+
     def calculate_average_ratings(self):
         return {
             'innovation': self.ratings.aggregate(Avg('innovation'))['innovation__avg'] or 0,

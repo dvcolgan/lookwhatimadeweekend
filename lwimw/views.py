@@ -23,7 +23,11 @@ def home(request):
 def guidelines(request):
     return render(request, 'guidelines.html', locals())
 
-def profile(request):
+def profile(request, user_id=None):
+    if user_id == None:
+        return HttpResponseRedirect(reverse('profile', args=(request.user.id,)))
+    user = get_object_or_404(User, id=user_id)
+    submissions = user.submissions.order_by('contest')
     return render(request, 'profile.html', locals())
 
 def irc(request):

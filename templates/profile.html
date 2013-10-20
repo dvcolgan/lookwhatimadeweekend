@@ -8,8 +8,27 @@
 
 {% block content %}
 <div class="post">
-    <h2>Your Profile</h2>
+    <h2>{{ user.username|capfirst }}'s Profile</h2>
+    <h3>Past Entries</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Weekend</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for submission in submissions %}
+            <tr>
+                <td><a href="{% url 'submission' submission.contest.number submission.user.id %}">{{ submission.title }}</a></td>
+                <td>{{ submission.category }}</td>
+                <td>{{ submission.contest.number }}</td>
+            </tr>
+            {% endfor %}
+    </table>
 </div>
 {% endblock %}
+
 
 
