@@ -10,7 +10,7 @@
 <div class="post">
     {% if request.user.id == user_id %}
         <h2>Submit/Edit your entry for LWIMW {{ contest.number }}</h2>
-        <form method="POST">{% csrf_token %}
+        <form method="POST" enctype="multipart/form-data">{% csrf_token %}
             {{ form|bootstrap }}
             <input type="submit" class="btn btn-primary btn-lg" value="Submit" />
         </form>
