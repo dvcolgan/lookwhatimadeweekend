@@ -4,3 +4,4 @@
 *.sqlite
 *.stackdump
 env
+media
