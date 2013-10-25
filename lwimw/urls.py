@@ -9,6 +9,10 @@ urlpatterns = patterns('lwimw.views',
     url(r'^accounts/profile/$', 'profile', name='profile'),
     url(r'^contest/(?P<number>\d+)/$', 'submissions_list', name='submissions_list'),
     url(r'^contest/(?P<number>\d+)/submission/(?P<user_id>\d+)/$', 'submission', name='submission'),
+
+    url(r'^posts/create/$', 'post_create', name='post_create'),
+    url(r'^posts/(?P<post_id>\d+)/edit/$', 'post_edit', name='post_edit'),
+
     url(r'^profile/$', 'profile', name='profile'),
     url(r'^profile/(?P<user_id>\d+)/$', 'profile', name='profile'),
     url(r'^irc/$', 'irc', name='irc'),

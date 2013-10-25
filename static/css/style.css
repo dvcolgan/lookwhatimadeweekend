@@ -63,6 +63,8 @@ body {
 }
 .sidebar .widget {
   margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e8e8e8;
 }
 .content {
   max-width: 625px;
@@ -79,4 +81,7 @@ form.narrow {
 }
 .mbs {
   margin-bottom: 6px;
+}
+.post img {
+  max-width: 100%;
 }

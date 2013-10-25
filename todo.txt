@@ -1,9 +1,11 @@
-rating of other peoples' entries
-forgot password link
-fix bug with submission
-profile page that shows your entries
-countdown timeer on the top of the site, showing time till contest, time left, time till next contest
+-rating of other peoples' entries
+-forgot password link
+-add an x to close the window WONTFIX
+-profile page that shows your entries
+
+-make it so that the site knows if it is lwimw or not
+-countdown timer on the top of the site, showing time till contest, time left, time till next contest
+
 blog entries
 add pictures to everything
 system in place for showing the results - who wins which category
-add an x to close the window
