@@ -73,7 +73,7 @@
                     <div class="sidebar">
                         <div class="widget">
                             {% if current_contest_state == 'before' %}
-                            <h4>Look What I Made Weekend {{ current_contest.number }} Begins In:</h4>
+                            <h4>Look What I Made Weekend #{{ current_contest.number }} Begins In:</h4>
                             {% elif current_contest_state == 'during' %}
                                 <h4>Contest Ends In:</h4>
                             {% elif current_contest_state == 'submission' %}
@@ -96,7 +96,7 @@
                         </div>
                         <div class="widget">
                             {% if request.user.is_authenticated %}
-                            <h4>Look What I Made Weekend {{ current_contest.number }}</h4>
+                            <h4>Look What I Made Weekend #{{ current_contest.number }}</h4>
                             <a class="btn btn-warning btn-lg btn-block" href="{% url 'post_create' %}">Write a Blog Post</a>
                             <a class="btn btn-success btn-lg btn-block" href="{% url 'submission' current_contest.number request.user.id %}">Edit Your Submission</a>
                             <a class="btn btn-primary btn-lg btn-block" href="{% url 'submissions_list' current_contest.number %}">View/Rate Submissions</a>
