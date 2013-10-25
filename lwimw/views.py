@@ -46,7 +46,7 @@ def submission(request, number, user_id):
     submission = get_object_or_None(Submission, user=user_id, contest=contest)
     if request.user.id == user_id:
         if request.method == 'POST':
-            form = SubmissionForm(request.POST, instance=submission)
+            form = SubmissionForm(request.POST, request.FILES, instance=submission)
             form.instance.user = request.user
             form.instance.contest = contest
             if form.is_valid():
