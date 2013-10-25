@@ -9,10 +9,11 @@
 {% block content %}
 <div class="post">
     <h2>Log In</h2>
-    <form method="POST">{% csrf_token %}
+    <form class="mbs" method="POST">{% csrf_token %}
         {{ form|bootstrap }}
         <input type="submit" class="btn btn-primary btn-lg" value="Log In" />
     </form>
+    <p><a href="{% url 'password_reset' %}">Forgot your password?</a></p>
 </div>
 {% endblock %}
 

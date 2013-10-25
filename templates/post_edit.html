@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load custom_tags %}
+{% load bootstrap %}
+
+{% block title %}Edit your post for LWIMW {{ current_contest.number }}{% endblock %}
+
+{% block body_class %}post_edit{% endblock %}
+ 
+{% block content %}
+<h2>Edit your blog post telling the group about your creation</h2>
+<form method="POST" enctype="multipart/form-data">{% csrf_token %}
+    {{ form|bootstrap }}
+    <input type="submit" class="btn btn-primary btn-lg" value="Update Post" />
+</form>
+{% endblock %}

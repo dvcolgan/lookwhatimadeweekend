@@ -13,3 +13,8 @@ class RatingForm(forms.ModelForm):
         exclude = ('rater', 'submission')
 
 
+class CreatePostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        exclude = ('contest', 'author')
+

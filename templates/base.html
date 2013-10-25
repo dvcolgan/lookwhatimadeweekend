@@ -11,6 +11,7 @@
     <link rel="shortcut icon" href="{{ STATIC_URL }}images/favicon.ico">
 
     <link href="{{ STATIC_URL }}bootstrap/css/bootstrap.css" rel="stylesheet" media="screen">
+    <link href="{{ STATIC_URL }}js/countdown/jquery.countdown.css" rel="stylesheet" media="screen">
     <link href="{{ STATIC_URL }}css/style.css" rel="stylesheet" media="screen">
     <!--<link href='http://fonts.googleapis.com/css?family=Patua+One' rel='stylesheet' type='text/css'>-->
 
@@ -27,7 +28,6 @@
     {% endfor %}
 </div>
 {% endif %}
-
 
     <div class="container outerwrap">
 
@@ -72,13 +72,38 @@
                 <div class="col-sm-4">
                     <div class="sidebar">
                         <div class="widget">
+                            {% if current_contest_state == 'before' %}
+                            <h4>Look What I Made Weekend {{ current_contest.number }} Begins In:</h4>
+                            {% elif current_contest_state == 'during' %}
+                                <h4>Contest Ends In:</h4>
+                            {% elif current_contest_state == 'submission' %}
+                                <h4>Submissions Close In:</h4>
+                            {% elif current_contest_state == 'judging' %}
+                                <h4>Judging Ends In:</h4>
+                            {% else %}
+                                <h4>Next LWIMW Coming Soon!</h4>
+                            {% endif %}
+                            {% if current_contest_state != 'after' %}
+                            <div id="countdown-timer" class="clearfix"
+                                 data-state="{{ current_contest_state }}"
+                                 data-start="{{ current_contest.start_time.isoformat }}"
+                                 data-end="{{ current_contest.get_end_time.isoformat }}"
+                                 data-submission="{{ current_contest.get_submission_time.isoformat }}"
+                                 data-judging="{{ current_contest.get_judging_time.isoformat }}"
+                                >
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="widget">
                             {% if request.user.is_authenticated %}
                             <h4>Look What I Made Weekend {{ current_contest.number }}</h4>
+                            <a class="btn btn-warning btn-lg btn-block" href="{% url 'post_create' %}">Write a Blog Post</a>
                             <a class="btn btn-success btn-lg btn-block" href="{% url 'submission' current_contest.number request.user.id %}">Edit Your Submission</a>
                             <a class="btn btn-primary btn-lg btn-block" href="{% url 'submissions_list' current_contest.number %}">View/Rate Submissions</a>
                             {% endif %}
                         </div>
 
+                        {% comment %}
                         <div class="widget">
                             <form action=""
                                 method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form"
@@ -93,6 +118,7 @@
                                 </div>
                             </form>
                         </div>
+                        {% endcomment %}
 
                         <div class="widget">
                             <a class="twitter-timeline" data-dnt="true" href="https://twitter.com/LWIMW" data-widget-id="391998538340503552">Tweets by @LWIMW</a>
@@ -111,6 +137,7 @@
 
     <script src='{{ STATIC_URL }}js/jquery.js'></script>
     <script src="{{ STATIC_URL }}bootstrap/dist/js/bootstrap.js"></script>
+    <script src="{{ STATIC_URL }}js/countdown/jquery.countdown.min.js"></script>
     <script src="{{ STATIC_URL }}js/all-pages.js"></script>
     {% block foot %}{% endblock %}
 </body>

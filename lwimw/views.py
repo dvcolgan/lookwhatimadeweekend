@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.template import RequestContext
 from django.contrib import messages 
 from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.db.models import Sum, Avg, Count
@@ -19,6 +20,8 @@ import ipdb
 import datetime
 
 def home(request):
+    current_contest = RequestContext(request)['current_contest']
+    posts = Post.objects.filter(contest=current_contest).order_by('-creation_date')
     return render(request, 'home.html', locals())
 
 def guidelines(request):
@@ -30,6 +33,7 @@ def profile(request, user_id=None):
         return HttpResponseRedirect(reverse('profile', args=(request.user.id,)))
     user = get_object_or_404(User, id=user_id)
     submissions = user.submissions.order_by('contest')
+    posts = Post.objects.filter(author=request.user)
     return render(request, 'profile.html', locals())
 
 def irc(request):
@@ -83,4 +87,41 @@ def submissions_list(request, number):
     can_vote = (your_submission != None)
 
     return render(request, 'submissions_list.html', locals())
+
+@login_required
+def post_list(request):
+    posts = Post.objects.filter(author=request.user)
+    return render(request, 'post_list.html', locals())
     
+    
+@login_required
+def post_create(request):
+    current_contest = RequestContext(request)['current_contest']
+    if request.method == 'POST':
+        form = CreatePostForm(request.POST, request.FILES)
+        form.instance.contest = current_contest
+        form.instance.author = request.user
+        if form.is_valid():
+            form.save()
+            messages.add_message(request, messages.SUCCESS, 'Your post has been published!')
+            return HttpResponseRedirect(reverse('profile'))
+    else:
+        form = CreatePostForm()
+    return render(request, 'post_create.html', locals())
+
+@login_required
+def post_edit(request, post_id):
+    current_contest = RequestContext(request)['current_contest']
+    post = get_object_or_404(Post, id=post_id)
+    if request.method == 'POST':
+        form = CreatePostForm(request.POST, request.FILES, instance=post)
+        form.instance.contest = current_contest
+        form.instance.author = request.user
+        if form.is_valid():
+            form.save()
+            messages.add_message(request, messages.SUCCESS, 'Your post has updated successfully!')
+            return HttpResponseRedirect(reverse('profile'))
+    else:
+        form = CreatePostForm(instance=post)
+    return render(request, 'post_edit.html', locals())
+

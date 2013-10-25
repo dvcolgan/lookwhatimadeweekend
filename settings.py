@@ -26,9 +26,13 @@ DATABASES = {
         'PORT': '',
     }
 }
-SITE_DOMAIN = 'localhost:8000'
-SERVER = 'local'
-#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+if HOSTNAME == 'impetus':
+    SITE_DOMAIN = 'localhost:8000'
+    SERVER = 'local'
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+else:
+    SITE_DOMAIN = 'lookwhatimadeweek.com'
+    SERVER = 'testing'
 
 from secret import *
 

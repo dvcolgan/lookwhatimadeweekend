@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load widget_tweaks %}
+{% load custom_tags %}
 {% load bootstrap %}
 
 {% block title %}Home{% endblock %}
@@ -7,12 +8,15 @@
 {% block body_class %}home{% endblock %}
 
 {% block content %}
-        <div class="post">
-            <h2>David's Post About Stuff</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
-        </div>
+
+{% for post in posts %}
+<div class="post">
+    <h2>{{ post.title }}</h2>
+    <p>By {{ post.author }} on {{ post.creation_date }}</p>
+    {{ post.body|markdown }}
+    {% if post.image %}<img src="{{ post.image.url }}" />{% endif %}
+</div>
+{% endfor %}
 
 {% endblock %}
 
