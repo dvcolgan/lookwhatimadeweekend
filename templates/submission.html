@@ -21,11 +21,13 @@
         {{ submission.comments|markdown }}
 
         <h3>Links to {{ submission.user.username }}'s Submission:</h3>
-        <p><a target="_blank" rel="nofollow" href="{{ submission.link_1 }}">{{ submission.link_1 }}</a></p>
+        {% if submission.link_2 %}<p><a target="_blank" rel="nofollow" href="{{ submission.link_1 }}">{{ submission.link_1 }}</a></p>{% endif %}
         {% if submission.link_2 %}<p><a target="_blank" rel="nofollow" href="{{ submission.link_2 }}">{{ submission.link_2 }}</a></p>{% endif %}
         {% if submission.link_3 %}<p><a target="_blank" rel="nofollow" href="{{ submission.link_3 }}">{{ submission.link_3 }}</a></p>{% endif %}
-        {% if submission.link_4 %}<p><a target="_blank" rel="nofollow" href="{{ submission.link_4 }}">{{ submission.link_4 }}</a></p>{% endif %}
-        {% if submission.link_5 %}<p><a target="_blank" rel="nofollow" href="{{ submission.link_5 }}">{{ submission.link_5 }}</a></p>{% endif %}
+
+        <p>{% if post.image_1 %}<img src="{{ post.image_1.url }}" />{% endif %}</p>
+        <p>{% if post.image_2 %}<img src="{{ post.image_2.url }}" />{% endif %}</p>
+        <p>{% if post.image_3 %}<img src="{{ post.image_3.url }}" />{% endif %}</p>
 
         {% if can_vote %}
             {% if submission.receive_ratings %}
