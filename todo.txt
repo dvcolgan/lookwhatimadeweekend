@@ -12,3 +12,4 @@ system in place for showing the results - who wins which category
 
 add this irc? https://kiwiirc.com/
 delete posts
+fix title on other people's profile page

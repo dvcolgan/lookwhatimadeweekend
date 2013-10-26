@@ -16,6 +16,7 @@
     {{ post.body|markdown }}
     {% if post.image %}<img src="{{ post.image.url }}" />{% endif %}
 </div>
+<hr/>
 {% endfor %}
 
 {% endblock %}
