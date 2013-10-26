@@ -75,6 +75,7 @@
                             {% if current_contest_state == 'before' %}
                             <h4>Look What I Made Weekend #{{ current_contest.number }} Begins In:</h4>
                             {% elif current_contest_state == 'during' %}
+                                <h4>The Theme is: {{ current_contest.theme }}</h4>
                                 <h4>Contest Ends In:</h4>
                             {% elif current_contest_state == 'submission' %}
                                 <h4>Submissions Close In:</h4>
