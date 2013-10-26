@@ -43,7 +43,9 @@
             </tr>
             {% endfor %}
     </table>
+    {% if user_id != request.user.id %}
     <a class="btn btn-warning btn-lg" href="{% url 'post_create' %}">Write a Blog Post for LWIMW {{ current_contest.number }}</a>
+    {% endif %}
 </div>
 {% endblock %}
 

@@ -9,3 +9,6 @@
 blog entries
 add pictures to everything
 system in place for showing the results - who wins which category
+
+add this irc? https://kiwiirc.com/
+delete posts
