@@ -21,7 +21,7 @@
         {{ submission.comments|markdown }}
 
         <h3>Links to {{ submission.user.username }}'s Submission:</h3>
-        {% if submission.link_2 %}<p><a target="_blank" rel="nofollow" href="{{ submission.link_1 }}">{{ submission.link_1 }}</a></p>{% endif %}
+        {% if submission.link_1 %}<p><a target="_blank" rel="nofollow" href="{{ submission.link_1 }}">{{ submission.link_1 }}</a></p>{% endif %}
         {% if submission.link_2 %}<p><a target="_blank" rel="nofollow" href="{{ submission.link_2 }}">{{ submission.link_2 }}</a></p>{% endif %}
         {% if submission.link_3 %}<p><a target="_blank" rel="nofollow" href="{{ submission.link_3 }}">{{ submission.link_3 }}</a></p>{% endif %}
 

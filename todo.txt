@@ -13,3 +13,21 @@ system in place for showing the results - who wins which category
 add this irc? https://kiwiirc.com/
 delete posts
 fix title on other people's profile page
+
+permalinks to blog posts
+comment on posts and submissions aside from rating
+detail page for submissions aside from the edit page
+non-logged in users can view posts and submissions
+delete blog posts
+
+make it so that people can't vote on theme if you unchecked the theme checkbox
+
+some way of contacting an admin to delete posts
+
+sometime make the theme jam and have it be the jam jam
+
+allow embeds of unit or other things (videos) on submissions
+
+add the subreddit to the site
+
+make it so you can't judge until the judging period
