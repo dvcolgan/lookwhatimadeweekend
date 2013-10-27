@@ -1,11 +1,5 @@
--rating of other peoples' entries
--forgot password link
--add an x to close the window WONTFIX
--profile page that shows your entries
-
--make it so that the site knows if it is lwimw or not
--countdown timer on the top of the site, showing time till contest, time left, time till next contest
-
+Todo
+------
 blog entries
 add pictures to everything
 system in place for showing the results - who wins which category
@@ -31,3 +25,15 @@ allow embeds of unit or other things (videos) on submissions
 add the subreddit to the site
 
 make it so you can't judge until the judging period
+ability to name links on a submission
+
+
+Done
+-------
+-rating of other peoples' entries
+-forgot password link
+-add an x to close the window WONTFIX
+-profile page that shows your entries
+
+-make it so that the site knows if it is lwimw or not
+-countdown timer on the top of the site, showing time till contest, time left, time till next contest
