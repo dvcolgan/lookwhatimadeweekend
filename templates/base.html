@@ -100,8 +100,8 @@
                             <h4>Look What I Made Weekend #{{ current_contest.number }}</h4>
                             <a class="btn btn-warning btn-lg btn-block" href="{% url 'post_create' %}">Write a Blog Post</a>
                             <a class="btn btn-success btn-lg btn-block" href="{% url 'submission' current_contest.number request.user.id %}">Edit Your Submission</a>
-                            <a class="btn btn-primary btn-lg btn-block" href="{% url 'submissions_list' current_contest.number %}">View/Rate Submissions</a>
                             {% endif %}
+                            <a class="btn btn-primary btn-lg btn-block" href="{% url 'submissions_list' current_contest.number %}">View/Rate Submissions</a>
                         </div>
 
                         {% comment %}

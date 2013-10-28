@@ -39,7 +39,6 @@ def profile(request, user_id=None):
 def irc(request):
     return render(request, 'irc.html', locals())
 
-@login_required
 def submission(request, number, user_id):
     user_id = int(user_id)
     contest = get_object_or_404(Contest, number=number)
@@ -77,7 +76,6 @@ def submission(request, number, user_id):
 
     return render(request, 'submission.html', locals())
 
-@login_required
 def submissions_list(request, number):
     contest = get_object_or_404(Contest, number=number)
 
