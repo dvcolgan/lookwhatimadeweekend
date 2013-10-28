@@ -43,7 +43,7 @@ def submission(request, number, user_id):
     user_id = int(user_id)
     contest = get_object_or_404(Contest, number=number)
     submission = get_object_or_None(Submission, user=user_id, contest=contest)
-    if request.user.id == user_id:
+    if request.user.is_authenticated() and request.user.id == user_id:
         if request.method == 'POST':
             form = SubmissionForm(request.POST, request.FILES, instance=submission)
             form.instance.user = request.user
@@ -58,7 +58,10 @@ def submission(request, number, user_id):
         if submission == None:
             raise Http404
         # If this is anther person's profile page, allow voting if you also have an entry
-        your_submission = get_object_or_None(Submission, user=request.user, contest=contest)
+        if request.user.is_authenticated():
+            your_submission = get_object_or_None(Submission, user=request.user, contest=contest)
+        else:
+            your_submission = None
         can_vote = (your_submission != None)
         if can_vote and submission.receive_ratings:
             rating = get_object_or_None(Rating, rater=request.user, submission=submission)
@@ -73,7 +76,6 @@ def submission(request, number, user_id):
             else:
                 rating_form = RatingForm(instance=rating)
 
-
     return render(request, 'submission.html', locals())
 
 def submissions_list(request, number):
@@ -81,7 +83,10 @@ def submissions_list(request, number):
 
     submissions = contest.submissions.annotate(num_ratings=Count('ratings')).order_by('num_ratings')
 
-    your_submission = get_object_or_None(Submission, user=request.user, contest=contest)
+    if request.user.is_authenticated():
+        your_submission = get_object_or_None(Submission, user=request.user, contest=contest)
+    else:
+        your_submission = None
     can_vote = (your_submission != None)
 
     return render(request, 'submissions_list.html', locals())
