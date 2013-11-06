@@ -24,6 +24,7 @@ add the subreddit to the site
 make it so you can't judge until the judging period
 ability to name links on a submission
 
+add instant runoff voting for themes
 
 upside down
 tilt
