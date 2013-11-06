@@ -7,4 +7,3 @@ If you are into making things, check out [http://lookwhatimadeweekend.com](http:
 -David Colgan
 [twitch.tv/dvcolga](http://twitch.tv/dvcolgan)
 [@davidscolgan](https://twitter.com/davidscolgan)
-
