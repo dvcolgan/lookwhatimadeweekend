@@ -7,9 +7,7 @@ PROJECT_DIR = os.path.dirname(__file__)
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
-ADMINS = (
-    ('David Colgan', 'dvcolgan@gmail.com'),
-)
+from secret import SECRET_KEY, POSTMARK_API_KEY, ADMINS, SERVER_EMAIL, EMAIL_HOST
 
 MANAGERS = ADMINS
 
@@ -34,10 +32,7 @@ else:
     SITE_DOMAIN = 'lookwhatimadeweek.com'
     SERVER = 'testing'
 
-from secret import *
 
-SERVER_EMAIL = 'david@lessboring.com'
-EMAIL_HOST = 'smtp.postmarkapp.com'
 EMAIL_PORT = 25
 EMAIL_HOST_USER = POSTMARK_API_KEY
 EMAIL_HOST_PASSWORD = POSTMARK_API_KEY
