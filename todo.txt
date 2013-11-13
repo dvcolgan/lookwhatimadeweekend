@@ -48,3 +48,9 @@ Done
 -blog entries
 -add pictures to everything
 -add this irc? https://kiwiirc.com/
+
+
+Make it so that each month is a contest, people can do their jam thing any weekend of the month, announce the theme at the beginning of the month, have voting for a month long on the last month's entries, announce winners a mounth from the end of the contest
+
+tomato game jam where you have to do something in a certain number of tomatos
+
