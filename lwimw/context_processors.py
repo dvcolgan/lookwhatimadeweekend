@@ -21,10 +21,11 @@ def common(request):
         )
 
     for contest in contests:
-        contest.user_can_vote = len(contest.submissions.filter(user=request.user)) > 0
-        contest.user_has_or_can_create_entry = (
-            current_contest.year == contest.year and
-            current_contest.month == contest.month
-        ) or contest.user_can_vote
+        if request.user.is_authenticated():
+            contest.user_can_vote = len(contest.submissions.filter(user=request.user)) > 0
+            contest.user_has_or_can_create_entry = (
+                current_contest.year == contest.year and
+                current_contest.month == contest.month
+            ) or contest.user_can_vote
 
     return locals()
