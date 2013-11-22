@@ -29,125 +29,130 @@
 </div>
 {% endif %}
 
-    <div class="container outerwrap">
+<div class="container outerwrap">
 
-        <div class="container innerwrap">
-            <div class="jumbotron header">
-                <h1><a href="{% url 'home' %}"><img src="{{ STATIC_URL }}images/banner.png" alt="Look What I Made Weekend" /></a></h1>
-            </div>
-            <nav class="navbar navbar-default" role="navigation">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-header-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                </div>
-
-                <div class="collapse navbar-collapse navbar-header-collapse">
-                    <ul class="nav navbar-nav">
-                        <li><a href="{% url 'home' %}">Home</a></li>
-                        <li><a href="{% url 'guidelines' %}">Guidelines</a></li>
-                        <li><a href="{% url 'irc' %}">IRC</a></li>
-
-                    </ul>
-                    <ul class="nav navbar-nav navbar-right">
-                        {% if request.user.is_authenticated %}
-                        <li><a href="{% url 'profile' request.user.id %}">{{ request.user.username|capfirst }}'s Profile</a></li>
-                        <li><a href="{% url 'auth_logout' %}">Logout</a></li>
-                        {% else %}
-                        <li><a href="{% url 'registration_register' %}">Create Account</a></li>
-                        <li><a href="{% url 'auth_login' %}">Log In</a></li>
-                        {% endif %}
-                    </ul>
-                </div><!-- /.navbar-collapse -->
-            </nav>
-            <div class="row">
-                <div class="col-sm-8">
-                    <div class="content">
-                        {% block content %}{% endblock %}
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="sidebar">
-                        <div class="widget">
-                            {% if current_contest_state == 'before' %}
-                            <h4>Look What I Made Weekend #{{ current_contest.number }} Begins In:</h4>
-                            {% elif current_contest_state == 'during' %}
-                                <h4>The Theme is: {{ current_contest.theme }}</h4>
-                                <h4>Contest Ends In:</h4>
-                            {% elif current_contest_state == 'submission' %}
-                                <h4>Submissions Close In:</h4>
-                            {% elif current_contest_state == 'judging' %}
-                                <h4>Judging Ends In:</h4>
-                            {% else %}
-                                <h4>Next LWIMW Coming Soon!</h4>
-                            {% endif %}
-                            {% if current_contest_state != 'after' %}
-                            <div id="countdown-timer" class="clearfix"
-                                 data-state="{{ current_contest_state }}"
-                                 data-start="{{ current_contest.start_time.isoformat }}"
-                                 data-end="{{ current_contest.get_end_time.isoformat }}"
-                                 data-submission="{{ current_contest.get_submission_time.isoformat }}"
-                                 data-judging="{{ current_contest.get_judging_time.isoformat }}"
-                                >
-                            </div>
-                            {% endif %}
-                        </div>
-                        <div class="widget">
-                            {% if request.user.is_authenticated %}
-                            <h4>Look What I Made Weekend #{{ current_contest.number }}</h4>
-                            <a class="btn btn-warning btn-lg btn-block" href="{% url 'post_create' %}">Write a Blog Post</a>
-                            <a class="btn btn-success btn-lg btn-block" href="{% url 'submission' current_contest.number request.user.id %}">Edit Your Submission</a>
-                            {% endif %}
-                            <a class="btn btn-primary btn-lg btn-block" href="{% url 'submissions_list' current_contest.number %}">View/Rate Submissions</a>
-                        </div>
-
-                        {% comment %}
-                        <div class="widget">
-                            <form action=""
-                                method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form"
-                                class="validate clearfix" target="_blank" novalidate>
-                                <h4>Want to receive updates on the next LWIMW?</h4>
-
-                                <div class="input-group">
-                                    <input type="email" value="" name="EMAIL" class="email form-control" id="mce-EMAIL" placeholder="Email address" required />
-                                    <span class="input-group-btn">
-                                        <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="btn btn-primary" />
-                                    </span>
-                                </div>
-                            </form>
-                        </div>
-                        {% endcomment %}
-
-                        <div class="widget">
-                            <p><a href="http://www.twitch.tv/dvcolgan">DVColgan's Stream</a></p>
-                            <p><a href="http://www.twitch.tv/taugeshtu">Tau's Stream</a></p>
-                            <p><a href="http://www.twitch.tv/zzforrest">zzForrest' Stream</a></p>
-                            <p><a href="http://www.twitch.tv/encryptedcow">EncryptedCow' Stream</a></p>
-                            <p><a href="http://twitch.tv/thepattybeast">ThePattyBeast' Stream</a></p>
-                        </div>
-
-                        <div class="widget">
-                            <a class="twitter-timeline" data-dnt="true" href="https://twitter.com/LWIMW" data-widget-id="391998538340503552">Tweets by @LWIMW</a>
-    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
+    <div class="container innerwrap">
+        <div class="jumbotron header">
+            <h1><a href="{% url 'home' %}"><img src="{{ STATIC_URL }}images/banner.png" alt="Look What I Made Weekend" /></a></h1>
         </div>
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-header-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
 
-        <div class="container footer">
-            Look What I Made Weekend - A Less Boring Production by David Colgan
+            <div class="collapse navbar-collapse navbar-header-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'guidelines' %}">Guidelines</a></li>
+                    <li><a href="{% url 'irc' %}">IRC</a></li>
+
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    {% if request.user.is_authenticated %}
+                    <li><a href="{% url 'post_create' %}">Write a Blog Post</a></li>
+                    <li><a href="{% url 'profile' request.user.id %}">{{ request.user.username|capfirst }}'s Profile</a></li>
+                    <li><a href="{% url 'auth_logout' %}">Logout</a></li>
+                    {% else %}
+                    <li><a href="{% url 'registration_register' %}">Create Account</a></li>
+                    <li><a href="{% url 'auth_login' %}">Log In</a></li>
+                    {% endif %}
+                </ul>
+            </div><!-- /.navbar-collapse -->
+
+        </nav>
+
+        <div class="row">
+            <div class="col-sm-8">
+                <div class="content">
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="sidebar">
+                    <div class="widget">
+                        <div class="panel-group" id="accordion">
+                            {% for contest in contests %}
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" href="#collapse-{{ forloop.counter0 }}">
+                                                LWIMW {{ contest.number }} - {{ contest.get_short_month_name }} {{ contest.year }}
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapse-{{ forloop.counter0 }}" class="panel-collapse collapse{% if forloop.counter0 == 0 or forloop.counter0 == 1 %} in{% endif %}">
+                                        <div class="panel-body">
+                                            <h4>Theme: {{ contest.theme }}</h4>
+                                            {% with contest_state=contest.get_current_state %}
+                                                {% if contest_state == 'during' %}
+                                                    <h4>Contest Ends In:</h4>
+                                                    <div id="contest-timer" class="clearfix mbs"></div>
+                                                {% elif contest_state == 'judging' %}
+                                                    <h4>Judging Ends In:</h4>
+                                                    <div id="judging-timer" class="clearfix mbs">
+                                                    </div>
+                                                {% elif contest_state == 'after' %}
+                                                    <h4>Contest is Closed</h4>
+                                                {% endif %}
+                                                {% if request.user.is_authenticated and contest.user_has_or_can_create_entry %}
+                                                    <a class="btn btn-success btn-lg btn-block" href="{% url 'submission_detail' contest.number request.user.id %}">
+                                                        {% if contest_state == 'during' %}Create Your Submission{% endif %}
+                                                        {% if contest_state == 'judging' %}Edit Your Submission{% endif %}
+                                                        {% if contest_state == 'after' %}View Your Submission{% endif %}
+                                                    </a>
+                                                {% endif %}
+                                                <a class="btn btn-primary btn-lg btn-block" href="{% url 'submissions_list' contest.number %}">
+                                                    {% if contest_state == 'judging' and request.user.is_authenticated and contest.user_can_vote %}
+                                                        Rate Submissions
+                                                    {% else %}
+                                                        View Submissions
+                                                    {% endif %}
+                                                </a>
+                                            {% endwith %}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Have this be generated and be able to put your stream in your profile -->
+                    <div class="widget">
+                        <p><a href="http://www.twitch.tv/dvcolgan">DVColgan's Stream</a></p>
+                        <p><a href="http://www.twitch.tv/taugeshtu">Tau's Stream</a></p>
+                        <p><a href="http://www.twitch.tv/zzforrest">zzForrest's Stream</a></p>
+                        <p><a href="http://www.twitch.tv/encryptedcow">EncryptedCow's Stream</a></p>
+                        <p><a href="http://twitch.tv/thepattybeast">ThePattyBeast's Stream</a></p>
+                        <p><a href="http://twitch.tv/jordanfitz">JordanFitz's Stream</a></p>
+                        <p><a href="http://twitch.tv/napen123">Napen123's Stream</a></p>
+                        <p><a href="http://www.twitch.tv/chocolatebird">ChocolateBird's Stream</a></p>
+
+                    </div>
+
+                    <div class="widget">
+                        <a class="twitter-timeline" data-dnt="true" href="https://twitter.com/LWIMW" data-widget-id="391998538340503552">Tweets by @LWIMW</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+                    </div>
+
+                </div>
+            </div>
         </div>
     </div>
 
-    <script src='{{ STATIC_URL }}js/jquery.js'></script>
-    <script src="{{ STATIC_URL }}bootstrap/dist/js/bootstrap.js"></script>
-    <script src="{{ STATIC_URL }}js/countdown/jquery.countdown.min.js"></script>
-    <script src="{{ STATIC_URL }}js/all-pages.js"></script>
-    {% block foot %}{% endblock %}
+    <div class="container footer">
+        Look What I Made Weekend - A Less Boring Production by David Colgan
+    </div>
+</div>
+
+<script src='{{ STATIC_URL }}js/jquery.js'></script>
+<script src="{{ STATIC_URL }}bootstrap/dist/js/bootstrap.js"></script>
+<script src="{{ STATIC_URL }}js/countdown/jquery.countdown.min.js"></script>
+<script src="{{ STATIC_URL }}js/all-pages.js"></script>
+{% block foot %}{% endblock %}
 </body>
 </html>

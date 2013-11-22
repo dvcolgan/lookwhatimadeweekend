@@ -21,7 +21,7 @@
         <tbody>
             {% for submission in submissions %}
             <tr>
-                <td><a href="{% url 'submission' submission.contest.number submission.user.id %}">{{ submission.title }}</a></td>
+                <td><a href="{% url 'submission_detail' submission.contest.number submission.user.id %}">{{ submission.title }}</a></td>
                 <td>{{ submission.category }}</td>
                 <td>{{ submission.contest.number }}</td>
             </tr>

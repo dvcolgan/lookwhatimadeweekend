@@ -39,44 +39,48 @@ def profile(request, user_id=None):
 def irc(request):
     return render(request, 'irc.html', locals())
 
-def submission(request, number, user_id):
+@login_required
+def submission_edit(request, number):
+    contest = get_object_or_404(Contest, number=number)
+    submission = get_object_or_None(Submission, user=request.user, contest=contest)
+    if request.method == 'POST':
+        form = SubmissionForm(request.POST, request.FILES, instance=submission)
+        form.instance.user = request.user
+        form.instance.contest = contest
+        if form.is_valid():
+            form.save()
+            messages.add_message(request, messages.SUCCESS, 'Submission updated successfully!')
+            return HttpResponseRedirect(reverse('submission_detail', args=(contest.number, request.user.id)))
+    else:
+        form = SubmissionForm(instance=submission)
+    return render(request, 'submission_edit.html', locals())
+
+def submission_detail(request, number, user_id):
     user_id = int(user_id)
     contest = get_object_or_404(Contest, number=number)
     submission = get_object_or_None(Submission, user=user_id, contest=contest)
-    if request.user.is_authenticated() and request.user.id == user_id:
-        if request.method == 'POST':
-            form = SubmissionForm(request.POST, request.FILES, instance=submission)
-            form.instance.user = request.user
-            form.instance.contest = contest
-            if form.is_valid():
-                form.save()
-                messages.add_message(request, messages.SUCCESS, 'Submission updated successfully!')
-                return HttpResponseRedirect(reverse('profile', args=(request.user.id,)))
-        else:
-            form = SubmissionForm(instance=submission)
+    if submission is None:
+        return HttpResponseRedirect(reverse('submission_edit', args=(contest.number,)))
+    # If this is anther person's profile page, allow voting if you also have an entry
+    if request.user.is_authenticated():
+        your_submission = get_object_or_None(Submission, user=request.user, contest=contest)
     else:
-        if submission == None:
-            raise Http404
-        # If this is anther person's profile page, allow voting if you also have an entry
-        if request.user.is_authenticated():
-            your_submission = get_object_or_None(Submission, user=request.user, contest=contest)
+        your_submission = None
+    can_vote = (your_submission is not None and submission.id != your_submission.id)
+    if can_vote and submission.receive_ratings:
+        rating = get_object_or_None(Rating, rater=request.user, submission=submission)
+        if request.method == 'POST':
+            rating_form = RatingForm(request.POST, instance=rating)
+            rating_form.instance.rater = request.user
+            rating_form.instance.submission = submission
+            if rating_form.is_valid():
+                rating_form.save()
+                messages.add_message(request, messages.SUCCESS, 'Your rating has been recorded!')
+                return HttpResponseRedirect(reverse('submissions_list', args=(contest.number,)))
         else:
-            your_submission = None
-        can_vote = (your_submission != None)
-        if can_vote and submission.receive_ratings:
-            rating = get_object_or_None(Rating, rater=request.user, submission=submission)
-            if request.method == 'POST':
-                rating_form = RatingForm(request.POST, instance=rating)
-                rating_form.instance.rater = request.user
-                rating_form.instance.submission = submission
-                if rating_form.is_valid():
-                    rating_form.save()
-                    messages.add_message(request, messages.SUCCESS, 'Your rating has been recorded!')
-                    return HttpResponseRedirect(reverse('submissions_list', args=(contest.number,)))
-            else:
-                rating_form = RatingForm(instance=rating)
+            rating_form = RatingForm(instance=rating)
 
-    return render(request, 'submission.html', locals())
+    return render(request, 'submission_detail.html', locals())
 
 def submissions_list(request, number):
     contest = get_object_or_404(Contest, number=number)
