@@ -126,12 +126,17 @@ INSTALLED_APPS = (
     'util',
     'lwimw',
     'south',
+    'django_nose',
     'debug_toolbar',
 )
 ACCOUNT_ACTIVATION_DAYS = 7
 DEBUG_TOOLBAR_CONFIG = {
     'INTERCEPT_REDIRECTS': False,
 }
+
+SOUTH_TESTS_MIGRATE = False
+SKIP_SOUTH_TESTS = True
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 

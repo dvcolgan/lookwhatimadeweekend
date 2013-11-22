@@ -82,6 +82,13 @@ form.narrow {
 .mbs {
   margin-bottom: 6px;
 }
+.mbl {
+  margin-bottom: 10px;
+}
 .post img {
   max-width: 100%;
+}
+.panel-default > .panel-heading {
+  background-color: #428bca;
+  color: white;
 }

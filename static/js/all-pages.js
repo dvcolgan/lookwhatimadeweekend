@@ -6,36 +6,25 @@ ALL_PAGES = {
 };
 
 $(function() {
-  var cl, end_time, judging_time, start_time, state, submission_time;
+  var cl, contestEndMonth, contestYear, endDate, now;
   $('.alert').slideDown();
   setTimeout((function() {
     return $('.alert').slideUp();
   }), 4000);
-  state = $('#countdown-timer').data('state');
-  start_time = $('#countdown-timer').data('start');
-  end_time = $('#countdown-timer').data('end');
-  submission_time = $('#countdown-timer').data('submission');
-  judging_time = $('#countdown-timer').data('judging');
-  if (state === 'before') {
-    $('#countdown-timer').countdown({
-      until: new Date(start_time)
-    });
+  now = new Date();
+  contestYear = parseInt(now.getFullYear());
+  contestEndMonth = parseInt(now.getMonth()) + 1;
+  if (contestEndMonth > 11) {
+    contestEndMonth = 0;
+    contestYear++;
   }
-  if (state === 'during') {
-    $('#countdown-timer').countdown({
-      until: new Date(end_time)
-    });
-  }
-  if (state === 'submission') {
-    $('#countdown-timer').countdown({
-      until: new Date(submission_time)
-    });
-  }
-  if (state === 'judging') {
-    $('#countdown-timer').countdown({
-      until: new Date(judging_time)
-    });
-  }
+  endDate = new Date(contestYear, contestEndMonth, 1);
+  $('#contest-timer').countdown({
+    until: endDate
+  });
+  $('#judging-timer').countdown({
+    until: endDate
+  });
   cl = $('body').attr('class');
   if (cl && cl in ALL_PAGES) {
     return ALL_PAGES[cl]();

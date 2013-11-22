@@ -1,5 +1,9 @@
 Todo
 ------
+make the contests into an accordion on the home page
+
+make it so you can automatically add your stream to the sidebar
+
 system in place for showing the results - who wins which category
 
 delete posts
@@ -7,8 +11,6 @@ fix title on other people's profile page
 
 permalinks to blog posts
 comment on posts and submissions aside from rating
-detail page for submissions aside from the edit page
-non-logged in users can view posts and submissions
 delete blog posts
 
 make it so that people can't vote on theme if you unchecked the theme checkbox
@@ -25,6 +27,21 @@ make it so you can't judge until the judging period
 ability to name links on a submission
 
 add instant runoff voting for themes
+
+Make it so that each month is a contest, people can do their jam thing any weekend of the month, announce the theme at the beginning of the month, have voting for a month long on the last month's entries, announce winners a mounth from the end of the contest
+
+tomato game jam where you have to do something in a certain number of tomatos
+
+make it so you specify when your weekend happens
+once your 48 hours have started you can't change your time
+have a calendar of everyones times of working
+
+
+have a way for people to submit new categories that they want to see
+have this on the sidebar, show the categories, have a link to submit a category
+
+http://toopay.github.io/bootstrap-markdown/
+http://hackerwins.github.io/summernote/
 
 upside down
 tilt
@@ -48,9 +65,7 @@ Done
 -blog entries
 -add pictures to everything
 -add this irc? https://kiwiirc.com/
+-detail page for submissions aside from the edit page
+-non-logged in users can view posts and submissions
 
-
-Make it so that each month is a contest, people can do their jam thing any weekend of the month, announce the theme at the beginning of the month, have voting for a month long on the last month's entries, announce winners a mounth from the end of the contest
-
-tomato game jam where you have to do something in a certain number of tomatos
 

@@ -8,46 +8,81 @@ import ipdb
 from datetime import date, timedelta
 
 
-
 class ContestManager(models.Manager):
-    def get_current_contest_state(self):
-        contest = self.latest()
-        now = timezone.now()
-        print now, contest.start_time
-        if now < contest.start_time:
-            return 'before'
-        elif contest.start_time <= now <= contest.get_end_time():
-            return 'during'
-        elif contest.get_end_time() < now <= contest.get_submission_time():
-            return 'submission'
-        elif contest.get_submission_time() < now <= contest.get_judging_time():
-            return 'judging'
-        else:
-            return 'after'
+    pass
 
 
 class Contest(models.Model):
     number = models.PositiveIntegerField(unique=True)
     theme = models.CharField(max_length=255)
-    start_time = models.DateTimeField()
+    month = models.PositiveIntegerField()
+    year = models.PositiveIntegerField()
 
     objects = ContestManager()
 
-    class Meta:
-        get_latest_by = 'start_time'
-
     def __unicode__(self):
-        return 'Look What I Made Weekend %d - %s (%s)' % (self.number, self.theme, self.start_time)
+        return 'Look What I Made Weekend %d - %s' % (self.number, self.theme)
 
-    def get_end_time(self):
-        return self.start_time + timedelta(hours=48)
+    def get_current_state(self):
+        now = timezone.now()
+        return self.get_contest_state(now)
 
-    def get_submission_time(self):
-        return self.start_time + timedelta(hours=49)
+    def get_contest_state(self, now):
+        if now.year < self.year or now.year == self.year and now.month < self.month:
+            return 'before'
+        elif now.year == self.year and now.month == self.month:
+            return 'during'
+        elif (now.year == self.year and now.month == self.month + 1 or 
+              now.year == self.year + 1 and now.month == 1):
+            return 'judging'
+        else:
+            return 'after'
 
-    def get_judging_time(self):
-        return self.start_time + timedelta(hours=48+14*24)
-        
+    def get_results(self):
+
+        return (self.submissions.all().
+            annotate(avg_innovation=Avg('ratings__innovation')).
+            annotate(avg_theme=Avg('ratings__theme')).
+            annotate(avg_refinement=Avg('ratings__refinement')).
+            annotate(avg_artistry=Avg('ratings__artistry')).
+            annotate(avg_overall=Avg('ratings__overall')).
+            order_by('-avg_overall')
+        )
+
+    def get_long_month_name(self):
+        return [
+            'Negative',
+            'January',
+            'February',
+            'March',
+            'April',
+            'May',
+            'June',
+            'July',
+            'August',
+            'September',
+            'October',
+            'November',
+            'December',
+        ][self.month]
+
+    def get_short_month_name(self):
+        return [
+            'Neg',
+            'Jan',
+            'Feb',
+            'Mar',
+            'Apr',
+            'May',
+            'Jun',
+            'Jul',
+            'Aug',
+            'Sep',
+            'Oct',
+            'Nov',
+            'Dec',
+        ][self.month]
+
 
 class Category(models.Model):
     name = models.CharField(max_length=255)
@@ -58,6 +93,7 @@ class Category(models.Model):
 
     class Meta:
         verbose_name_plural = 'categories'
+
 
 
 class Submission(models.Model):
@@ -74,15 +110,6 @@ class Submission(models.Model):
     image_3 = models.ImageField("Image 3 (Optional)", upload_to='submission_images', blank=True, null=True)
     receive_ratings = models.BooleanField('Allow others to rate my entry', default=True)
     used_theme = models.BooleanField('I used the theme', default=True)
-
-    def calculate_average_ratings(self):
-        return {
-            'innovation': self.ratings.aggregate(Avg('innovation'))['innovation__avg'] or 0,
-            'theme': self.ratings.aggregate(Avg('theme'))['theme__avg'] or 0,
-            'refinement': self.ratings.aggregate(Avg('refinement'))['refinement__avg'] or 0,
-            'artistry': self.ratings.aggregate(Avg('artistry'))['artistry__avg'] or 0,
-            'overall': self.ratings.aggregate(Avg('overall'))['overall__avg'] or 0,
-        }
 
 
 class Rating(models.Model):
