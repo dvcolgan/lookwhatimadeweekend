@@ -1,0 +1,48 @@
+<div class="widget">
+    <div class="panel-group" id="accordion">
+        {% for contest in contests %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#collapse-{{ forloop.counter0 }}">
+                            LWIMW {{ contest.number }} - {{ contest.get_short_month_name }} {{ contest.year }}
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse-{{ forloop.counter0 }}" class="panel-collapse collapse{% if forloop.counter0 == 0 or forloop.counter0 == 1 %} in{% endif %}">
+                    <div class="panel-body">
+                        <h4>Theme: {{ contest.theme }}</h4>
+                        {% with contest_state=contest.get_current_state %}
+                            {% if contest_state == 'during' %}
+
+                                <h4>Contest Ends In:</h4>
+                                <div id="contest-timer" class="clearfix mbs"></div>
+                            {% elif contest_state == 'judging' %}
+                                <h4>Judging Ends In:</h4>
+                                <div id="judging-timer" class="clearfix mbs">
+                                </div>
+                            {% elif contest_state == 'after' %}
+                                <h4>Contest is Closed</h4>
+                            {% endif %}
+                            {% if request.user.is_authenticated and contest.user_has_or_can_create_entry %}
+                                <a class="btn btn-success btn-lg btn-block" href="{% url 'submission_detail' contest.number request.user.id %}">
+                                    {% if contest_state == 'during' %}Create Your Submission{% endif %}
+                                    {% if contest_state == 'judging' %}Edit Your Submission{% endif %}
+                                    {% if contest_state == 'after' %}View Your Submission{% endif %}
+                                </a>
+                            {% endif %}
+                            <a class="btn btn-primary btn-lg btn-block" href="{% url 'submissions_list' contest.number %}">
+                                {% if contest_state == 'judging' and request.user.is_authenticated and contest.user_can_vote %}
+                                    Rate Submissions
+                                {% else %}
+                                    View Submissions
+                                {% endif %}
+                            </a>
+                        {% endwith %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+

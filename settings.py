@@ -7,7 +7,7 @@ PROJECT_DIR = os.path.dirname(__file__)
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
-from secret import SECRET_KEY, POSTMARK_API_KEY, ADMINS, SERVER_EMAIL, EMAIL_HOST
+from private import SECRET_KEY, POSTMARK_API_KEY, ADMINS, SERVER_EMAIL, EMAIL_HOST
 
 MANAGERS = ADMINS
 
@@ -84,7 +84,7 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    #'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -126,17 +126,15 @@ INSTALLED_APPS = (
     'util',
     'lwimw',
     'south',
-    'django_nose',
-    'debug_toolbar',
+    #'debug_toolbar',
 )
 ACCOUNT_ACTIVATION_DAYS = 7
-DEBUG_TOOLBAR_CONFIG = {
-    'INTERCEPT_REDIRECTS': False,
-}
+#DEBUG_TOOLBAR_CONFIG = {
+#    'INTERCEPT_REDIRECTS': False,
+#}
 
 SOUTH_TESTS_MIGRATE = False
 SKIP_SOUTH_TESTS = True
-TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 
