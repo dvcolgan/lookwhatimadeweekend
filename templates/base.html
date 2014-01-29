@@ -10,14 +10,12 @@
 
     <link rel="shortcut icon" href="{{ STATIC_URL }}images/favicon.ico">
 
-    <link href="{{ STATIC_URL }}bootstrap/css/bootstrap.css" rel="stylesheet" media="screen">
-    <link href="{{ STATIC_URL }}js/countdown/jquery.countdown.css" rel="stylesheet" media="screen">
-    <link href="{{ STATIC_URL }}css/style.css" rel="stylesheet" media="screen">
     <!--<link href='http://fonts.googleapis.com/css?family=Patua+One' rel='stylesheet' type='text/css'>-->
 
     {% block head %}{% endblock %}
 
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/vendor.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/app.css">
 </head>
 <body class="{% block body_class %}{% endblock %}">
 
@@ -149,10 +147,8 @@
     </div>
 </div>
 
-<script src='{{ STATIC_URL }}js/jquery.js'></script>
-<script src="{{ STATIC_URL }}bootstrap/dist/js/bootstrap.js"></script>
-<script src="{{ STATIC_URL }}js/countdown/jquery.countdown.min.js"></script>
-<script src="{{ STATIC_URL }}js/all-pages.js"></script>
+<script src='{{ STATIC_URL }}js/vendor.js'></script>
+<script src='{{ STATIC_URL }}js/app.js'></script>
 {% block foot %}{% endblock %}
 </body>
 </html>
