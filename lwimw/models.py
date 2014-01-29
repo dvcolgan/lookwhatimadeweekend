@@ -40,6 +40,15 @@ class Contest(models.Model):
         else:
             return 'after'
 
+    def get_end_time(self):
+        return self.start + timedelta(hours=48)
+
+    def get_submission_time(self):
+        return self.start + timedelta(hours=49)
+
+    def get_judging_time(self):
+        return self.start + timedelta(hours=48+14*24)
+
     def can_submit(self, now):
         state = self.get_contest_state(now)
         return state == 'during' or state == 'submitting'

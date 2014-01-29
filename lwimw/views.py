@@ -12,6 +12,7 @@ from lwimw.forms import *
 from util.functions import *
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
+from django.core.paginator import Paginator
 
 import random
 import math
@@ -21,7 +22,16 @@ import datetime
 
 def home(request):
     current_contest = RequestContext(request)['current_contest']
-    posts = Post.objects.filter(contest=current_contest).order_by('-creation_date')
+    post_list = Post.objects.order_by('-creation_date')
+    paginator = Paginator(post_list, 20)
+    page = request.GET.get('page')
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+
     return render(request, 'home.html', locals())
 
 def guidelines(request):

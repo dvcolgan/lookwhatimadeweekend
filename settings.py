@@ -132,11 +132,7 @@ INSTALLED_APPS = (
     'util',
     'lwimw',
     'south',
-<<<<<<< HEAD
     'debug_toolbar',
-=======
-    #'debug_toolbar',
->>>>>>> a5e9db6bdea28b5845fb91c1e4619141c3ac2612
 )
 ACCOUNT_ACTIVATION_DAYS = 7
 #DEBUG_TOOLBAR_CONFIG = {
