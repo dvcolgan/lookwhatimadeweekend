@@ -90,7 +90,7 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    #'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -132,12 +132,16 @@ INSTALLED_APPS = (
     'util',
     'lwimw',
     'south',
+<<<<<<< HEAD
     'debug_toolbar',
+=======
+    #'debug_toolbar',
+>>>>>>> a5e9db6bdea28b5845fb91c1e4619141c3ac2612
 )
 ACCOUNT_ACTIVATION_DAYS = 7
-DEBUG_TOOLBAR_CONFIG = {
-    'INTERCEPT_REDIRECTS': False,
-}
+#DEBUG_TOOLBAR_CONFIG = {
+#    'INTERCEPT_REDIRECTS': False,
+#}
 
 SOUTH_TESTS_MIGRATE = False
 SKIP_SOUTH_TESTS = True
