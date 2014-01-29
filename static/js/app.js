@@ -98,25 +98,36 @@ ALL_PAGES = {
 };
 
 $(function() {
-  var cl, contestEndMonth, contestYear, endDate, now;
+  var cl, endTime, judgingTime, startTime, state, submissionTime;
   $('.alert').slideDown();
   setTimeout((function() {
     return $('.alert').slideUp();
   }), 4000);
-  now = new Date();
-  contestYear = parseInt(now.getFullYear());
-  contestEndMonth = parseInt(now.getMonth()) + 1;
-  if (contestEndMonth > 11) {
-    contestEndMonth = 0;
-    contestYear++;
+  state = $('#countdown-timer').data('state');
+  startTime = $('#countdown-timer').data('start');
+  endTime = $('#countdown-timer').data('end');
+  submissionTime = $('#countdown-timer').data('submission');
+  judgingTime = $('#countdown-timer').data('judging');
+  if (state === 'before') {
+    $('#countdown-timer').countdown({
+      until: new Date(startTime)
+    });
   }
-  endDate = new Date(contestYear, contestEndMonth, 1);
-  $('#contest-timer').countdown({
-    until: endDate
-  });
-  $('#judging-timer').countdown({
-    until: endDate
-  });
+  if (state === 'during') {
+    $('#countdown-timer').countdown({
+      until: new Date(endTime)
+    });
+  }
+  if (state === 'submission') {
+    $('#countdown-timer').countdown({
+      until: new Date(submissionTime)
+    });
+  }
+  if (state === 'judging') {
+    $('#countdown-timer').countdown({
+      until: new Date(judgingTime)
+    });
+  }
   cl = $('body').attr('class');
   if (cl && cl in ALL_PAGES) {
     return ALL_PAGES[cl]();

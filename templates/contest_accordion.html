@@ -5,7 +5,7 @@
                 <div class="panel-heading">
                     <h4 class="panel-title">
                         <a data-toggle="collapse" href="#collapse-{{ forloop.counter0 }}">
-                            LWIMW {{ contest.number }} - {{ contest.get_short_month_name }} {{ contest.year }}
+                            LWIMW {{ contest.number }} - {{ contest.start }}
                         </a>
                     </h4>
                 </div>
@@ -13,31 +13,45 @@
                     <div class="panel-body">
                         <h4>Theme: {{ contest.theme }}</h4>
                         {% with contest_state=contest.get_current_state %}
-                            {% if contest_state == 'during' %}
-
+                            {% if contest_state == 'before' %}
+                                <h4>Contest Starts In:</h4>
+                            {% elif contest_state == 'during' %}
                                 <h4>Contest Ends In:</h4>
-                                <div id="contest-timer" class="clearfix mbs"></div>
+                            {% elif contest_state == 'submitting' %}
+                                <h4>Submission Ends In:</h4>
                             {% elif contest_state == 'judging' %}
                                 <h4>Judging Ends In:</h4>
-                                <div id="judging-timer" class="clearfix mbs">
-                                </div>
                             {% elif contest_state == 'after' %}
                                 <h4>Contest is Closed</h4>
                             {% endif %}
-                            {% if request.user.is_authenticated and contest.user_has_or_can_create_entry %}
+                            {% if contest_state != 'after' %}
+                            <div id="countdown-timer" class="clearfix mbs"
+                                 data-state="{{ contest_state }}"
+                                 data-start="{{ current_contest.start.isoformat }}"
+                                 data-end="{{ current_contest.get_end_time.isoformat }}"
+                                 data-submission="{{ current_contest.get_submission_time.isoformat }}"
+                                 data-judging="{{ current_contest.get_judging_time.isoformat }}">
+                            </div>
+                            {% endif %}
+
+                            {% if contest.can_vote %}
                                 <a class="btn btn-success btn-lg btn-block" href="{% url 'submission_detail' contest.number request.user.id %}">
-                                    {% if contest_state == 'during' %}Create Your Submission{% endif %}
-                                    {% if contest_state == 'judging' %}Edit Your Submission{% endif %}
-                                    {% if contest_state == 'after' %}View Your Submission{% endif %}
+                                    {% if contest_state == 'after' %}
+                                        Edit Your Submission
+                                    {% elif contest_state != 'before' %}
+                                        View Your Submission
+                                    {% endif %}
                                 </a>
                             {% endif %}
-                            <a class="btn btn-primary btn-lg btn-block" href="{% url 'submissions_list' contest.number %}">
-                                {% if contest_state == 'judging' and request.user.is_authenticated and contest.user_can_vote %}
-                                    Rate Submissions
-                                {% else %}
-                                    View Submissions
-                                {% endif %}
-                            </a>
+                            {% if contest_state != 'before' %}
+                                <a class="btn btn-primary btn-lg btn-block" href="{% url 'submissions_list' contest.number %}">
+                                    {% if contest_state == 'judging' and contest.can_vote %}
+                                        Rate Submissions
+                                    {% else %}
+                                        View All Submissions
+                                    {% endif %}
+                                </a>
+                            {% endif %}
                         {% endwith %}
                     </div>
                 </div>

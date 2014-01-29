@@ -1,7 +1,5 @@
 Todo
 ------
-make the contests into an accordion on the home page
-
 make it so you can automatically add your stream to the sidebar
 
 system in place for showing the results - who wins which category
