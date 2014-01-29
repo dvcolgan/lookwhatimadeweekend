@@ -6,17 +6,18 @@ from util.functions import *
 import re
 import ipdb
 from datetime import date, timedelta
+from dateutil.relativedelta import relativedelta 
 
+def user_can_vote(user, submissions):
+    return bool(filter(lambda s: s.user.pk == user.pk, submissions))
 
 class ContestManager(models.Manager):
     pass
 
-
 class Contest(models.Model):
     number = models.PositiveIntegerField(unique=True)
     theme = models.CharField(max_length=255)
-    month = models.PositiveIntegerField()
-    year = models.PositiveIntegerField()
+    start = models.DateTimeField()
 
     objects = ContestManager()
 
@@ -28,16 +29,23 @@ class Contest(models.Model):
         return self.get_contest_state(now)
 
     def get_contest_state(self, now):
-        if now.year < self.year or now.year == self.year and now.month < self.month:
+        if now < self.start:
             return 'before'
-        elif now.year == self.year and now.month == self.month:
+        elif now < self.start + relativedelta(hours=48):
             return 'during'
-        elif (now.year == self.year and now.month == self.month + 1 or 
-              now.year == self.year + 1 and now.month == 1):
+        elif now < self.start + relativedelta(hours=49):
+            return 'submitting'
+        elif now < self.start + relativedelta(hours=49, weeks=3):
             return 'judging'
         else:
             return 'after'
 
+    def can_submit(self, now):
+        state = self.get_contest_state(now)
+        return state == 'during' or state == 'submitting'
+        
+
+        
     def get_results(self):
 
         return (self.submissions.all().
@@ -48,40 +56,6 @@ class Contest(models.Model):
             annotate(avg_overall=Avg('ratings__overall')).
             order_by('-avg_overall')
         )
-
-    def get_long_month_name(self):
-        return [
-            'Negative',
-            'January',
-            'February',
-            'March',
-            'April',
-            'May',
-            'June',
-            'July',
-            'August',
-            'September',
-            'October',
-            'November',
-            'December',
-        ][self.month]
-
-    def get_short_month_name(self):
-        return [
-            'Neg',
-            'Jan',
-            'Feb',
-            'Mar',
-            'Apr',
-            'May',
-            'Jun',
-            'Jul',
-            'Aug',
-            'Sep',
-            'Oct',
-            'Nov',
-            'Dec',
-        ][self.month]
 
 
 class Category(models.Model):
