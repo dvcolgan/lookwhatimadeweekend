@@ -59,7 +59,6 @@ class Contest(models.Model):
 
         return (self.submissions.all().
             annotate(avg_innovation=Avg('ratings__innovation')).
-            annotate(avg_theme=Avg('ratings__theme')).
             annotate(avg_refinement=Avg('ratings__refinement')).
             annotate(avg_artistry=Avg('ratings__artistry')).
             annotate(avg_overall=Avg('ratings__overall')).
@@ -92,7 +91,6 @@ class Submission(models.Model):
     image_2 = models.ImageField("Image 2 (Optional)", upload_to='submission_images', blank=True, null=True)
     image_3 = models.ImageField("Image 3 (Optional)", upload_to='submission_images', blank=True, null=True)
     receive_ratings = models.BooleanField('Allow others to rate my entry', default=True)
-    used_theme = models.BooleanField('I used the theme', default=True)
 
 
 class Rating(models.Model):
@@ -108,7 +106,6 @@ class Rating(models.Model):
     submission = models.ForeignKey(Submission, related_name='ratings')
 
     innovation = models.PositiveIntegerField(choices=RATINGS)
-    theme = models.PositiveIntegerField(choices=RATINGS)
     refinement = models.PositiveIntegerField(choices=RATINGS)
     artistry = models.PositiveIntegerField(choices=RATINGS)
     overall = models.PositiveIntegerField(choices=RATINGS)
