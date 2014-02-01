@@ -36,7 +36,7 @@
 
                             {% if contest.can_vote %}
                                 <a class="btn btn-success btn-lg btn-block" href="{% url 'submission_detail' contest.number request.user.id %}">
-                                    {% if contest_state == 'after' %}
+                                    {% if contest_state == 'during' or contest_state ==' submitting' %}
                                         Edit Your Submission
                                     {% elif contest_state != 'before' %}
                                         View Your Submission
