@@ -5,5 +5,7 @@ Greetings and salutations most excellent Django dev.  In this repository you wil
 If you are into making things, check out [http://lookwhatimadeweekend.com](http://lookwhatimadeweekend.com)!
 
 -David Colgan
-[twitch.tv/dvcolga](http://twitch.tv/dvcolgan)
+
+[twitch.tv/dvcolgan](http://twitch.tv/dvcolgan)
+
 [@davidscolgan](https://twitter.com/davidscolgan)
