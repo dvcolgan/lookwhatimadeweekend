@@ -13,6 +13,7 @@ from util.functions import *
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.core.paginator import Paginator
+from django.core.exceptions import PermissionDenied
 
 import random
 import math
@@ -43,7 +44,7 @@ def profile(request, user_id=None):
         return HttpResponseRedirect(reverse('profile', args=(request.user.id,)))
     user = get_object_or_404(User, id=user_id)
     submissions = user.submissions.order_by('contest')
-    posts = Post.objects.filter(author=request.user)
+    posts = Post.objects.filter(author=user)
     return render(request, 'profile.html', locals())
 
 def irc(request):
@@ -51,7 +52,14 @@ def irc(request):
 
 @login_required
 def submission_edit(request, number):
+    current_contest = RequestContext(request)['current_contest']
     contest = get_object_or_404(Contest, number=number)
+    if contest.pk != current_contest.pk:
+        raise PermissionDenied
+    else:
+        state == contest.get_contest_state(timezone.now())
+        if state != 'during' and state != 'submitting':
+            raise PermissionDenied
     submission = get_object_or_None(Submission, user=request.user, contest=contest)
     if request.method == 'POST':
         form = SubmissionForm(request.POST, request.FILES, instance=submission)
@@ -69,6 +77,7 @@ def submission_detail(request, number, user_id):
     user_id = int(user_id)
     contest = get_object_or_404(Contest, number=number)
     submission = get_object_or_None(Submission, user=user_id, contest=contest)
+    current_contest_state = contest.get_contest_state(timezone.now())
     if submission is None:
         return HttpResponseRedirect(reverse('submission_edit', args=(contest.number,)))
     # If this is anther person's profile page, allow voting if you also have an entry
@@ -130,9 +139,10 @@ def post_create(request):
 def post_edit(request, post_id):
     current_contest = RequestContext(request)['current_contest']
     post = get_object_or_404(Post, id=post_id)
+    if post.author.pk != request.user.pk:
+        raise PermissionDenied
     if request.method == 'POST':
         form = CreatePostForm(request.POST, request.FILES, instance=post)
-        form.instance.contest = current_contest
         form.instance.author = request.user
         if form.is_valid():
             form.save()
@@ -142,3 +152,7 @@ def post_edit(request, post_id):
         form = CreatePostForm(instance=post)
     return render(request, 'post_edit.html', locals())
 
+def post_detail(request, post_id):
+    current_contest = RequestContext(request)['current_contest']
+    post = get_object_or_404(Post, id=post_id)
+    return render(request, 'post_detail.html', locals())

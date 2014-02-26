@@ -27,16 +27,16 @@
                             {% if contest_state != 'after' %}
                             <div id="countdown-timer" class="clearfix mbs"
                                  data-state="{{ contest_state }}"
-                                 data-start="{{ current_contest.start.isoformat }}"
-                                 data-end="{{ current_contest.get_end_time.isoformat }}"
-                                 data-submission="{{ current_contest.get_submission_time.isoformat }}"
-                                 data-judging="{{ current_contest.get_judging_time.isoformat }}">
+                                 data-start="{{ contest.start.isoformat }}"
+                                 data-end="{{ contest.get_end_time.isoformat }}"
+                                 data-submission="{{ contest.get_submission_time.isoformat }}"
+                                 data-judging="{{ contest.get_judging_time.isoformat }}">
                             </div>
                             {% endif %}
 
                             {% if contest.can_vote %}
                                 <a class="btn btn-success btn-lg btn-block" href="{% url 'submission_detail' contest.number request.user.id %}">
-                                    {% if contest_state == 'during' or contest_state ==' submitting' %}
+                                    {% if contest_state == 'during' or contest_state == 'submitting' %}
                                         Edit Your Submission
                                     {% elif contest_state != 'before' %}
                                         View Your Submission

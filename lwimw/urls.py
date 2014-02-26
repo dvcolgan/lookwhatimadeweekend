@@ -13,6 +13,7 @@ urlpatterns = patterns('lwimw.views',
 
     url(r'^posts/create/$', 'post_create', name='post_create'),
     url(r'^posts/(?P<post_id>\d+)/edit/$', 'post_edit', name='post_edit'),
+    url(r'^posts/(?P<post_id>\d+)/$', 'post_detail', name='post_detail'),
 
     url(r'^profile/$', 'profile', name='profile'),
     url(r'^profile/(?P<user_id>\d+)/$', 'profile', name='profile'),

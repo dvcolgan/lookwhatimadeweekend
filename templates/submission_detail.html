@@ -8,7 +8,7 @@
  
 {% block content %}
 <div class="post">
-    {% if user_id == request.user.id %}
+    {% if user_id == request.user.id and current_contest_state == 'during' or current_contest_state == 'submitting' %}
     <a href="{% url 'submission_edit' contest.number %}" class="pull-right btn btn-lg btn-primary">Edit</a>
     {% endif %}
     <h2>{{ submission.title }}</h2>
@@ -40,5 +40,13 @@
         <h3><em>Create a submission to rate others' submissions.</em></h3>
         {% endif %}
     {% endif %}
+
+    <h3>Reviewer Comments</h3>
+    {% for rating in submission.ratings.all %}
+    <blockquote class="blockquote-reverse">
+        {{ rating.comments|markdown }}
+        <footer><a href="{% url 'profile' rating.rater.pk %}">&mdash;{{ rating.rater }}</a></footer>
+    </blockquote>
+    {% endfor %}
 </div>
 {% endblock %}

@@ -1,12 +1,13 @@
 from django.db import models
 from django.db.models import Sum, Avg
-from django.contrib.auth.models import *
+from django.contrib.auth.models import User
 from django.utils import timezone
 from util.functions import *
 import re
 import ipdb
 from datetime import date, timedelta
 from dateutil.relativedelta import relativedelta 
+
 
 def user_can_vote(user, submissions):
     return bool(filter(lambda s: s.user.pk == user.pk, submissions))
@@ -35,7 +36,7 @@ class Contest(models.Model):
             return 'during'
         elif now < self.start + relativedelta(hours=49):
             return 'submitting'
-        elif now < self.start + relativedelta(hours=49, weeks=3):
+        elif now < self.start + relativedelta(hours=49, weeks=2):
             return 'judging'
         else:
             return 'after'
@@ -92,6 +93,8 @@ class Submission(models.Model):
     image_3 = models.ImageField("Image 3 (Optional)", upload_to='submission_images', blank=True, null=True)
     receive_ratings = models.BooleanField('Allow others to rate my entry', default=True)
 
+    def __unicode__(self):
+        return self.title
 
 class Rating(models.Model):
     RATINGS = (
@@ -110,6 +113,9 @@ class Rating(models.Model):
     artistry = models.PositiveIntegerField(choices=RATINGS)
     overall = models.PositiveIntegerField(choices=RATINGS)
     comments = models.TextField(blank=True)
+
+    def __unicode__(self):
+        return self.submission
 
 
 class Post(models.Model):
