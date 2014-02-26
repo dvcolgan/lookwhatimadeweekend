@@ -118,8 +118,7 @@ def submissions_list(request, number):
 def post_list(request):
     posts = Post.objects.filter(author=request.user)
     return render(request, 'post_list.html', locals())
-    
-    
+
 @login_required
 def post_create(request):
     current_contest = RequestContext(request)['current_contest']
