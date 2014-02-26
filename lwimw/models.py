@@ -1,13 +1,12 @@
 from django.db import models
 from django.db.models import Sum, Avg
-from django.contrib.auth.models import User
+from django.contrib.auth.models import *
 from django.utils import timezone
 from util.functions import *
 import re
 import ipdb
 from datetime import date, timedelta
 from dateutil.relativedelta import relativedelta 
-
 
 def user_can_vote(user, submissions):
     return bool(filter(lambda s: s.user.pk == user.pk, submissions))
