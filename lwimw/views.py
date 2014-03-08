@@ -81,11 +81,7 @@ def submission_detail(request, number, user_id):
     if submission is None:
         return HttpResponseRedirect(reverse('submission_edit', args=(contest.number,)))
     # If this is anther person's profile page, allow voting if you also have an entry
-    if request.user.is_authenticated():
-        your_submission = get_object_or_None(Submission, user=request.user, contest=contest)
-    else:
-        your_submission = None
-    can_vote = (your_submission is not None and submission.id != your_submission.id)
+    can_vote = request.user.is_authenticated() and Submission.objects.filter(user=request.user).count() > 0 and submission.user != request.user
     if can_vote and submission.receive_ratings:
         rating = get_object_or_None(Rating, rater=request.user, submission=submission)
         if request.method == 'POST':

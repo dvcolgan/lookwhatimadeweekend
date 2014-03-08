@@ -36,7 +36,7 @@
             <h3><em>{{ submission.user.username|capfirst }}'s submission is not open to ratings.</em></h3>
         {% endif %}
     {% else %}
-        {% if submission.id != your_submission.id %}
+        {% if submission.user != request.user %}
         <h3><em>You must have submitted to this or any past LWIMWs to rate others' submissions.</em></h3>
         {% endif %}
     {% endif %}
