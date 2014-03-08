@@ -57,7 +57,7 @@ def submission_edit(request, number):
     if contest.pk != current_contest.pk:
         raise PermissionDenied
     else:
-        state == contest.get_contest_state(timezone.now())
+        state = contest.get_contest_state(timezone.now())
         if state != 'during' and state != 'submitting':
             raise PermissionDenied
     submission = get_object_or_None(Submission, user=request.user, contest=contest)

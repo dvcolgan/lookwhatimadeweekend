@@ -34,15 +34,13 @@
                             </div>
                             {% endif %}
 
-                            {% if contest.can_vote %}
-                                <a class="btn btn-success btn-lg btn-block" href="{% url 'submission_detail' contest.number request.user.id %}">
-                                    {% if contest_state == 'during' or contest_state == 'submitting' %}
-                                        Edit Your Submission
-                                    {% elif contest_state != 'before' %}
-                                        View Your Submission
-                                    {% endif %}
-                                </a>
-                            {% endif %}
+                            <a class="btn btn-success btn-lg btn-block" href="{% url 'submission_detail' contest.number request.user.id %}">
+                                {% if contest_state == 'during' or contest_state == 'submitting' %}
+                                    Edit Your Submission
+                                {% elif contest_state != 'before' %}
+                                    View Your Submission
+                                {% endif %}
+                            </a>
                             {% if contest_state != 'before' %}
                                 <a class="btn btn-primary btn-lg btn-block" href="{% url 'submissions_list' contest.number %}">
                                     {% if contest_state == 'judging' and contest.can_vote %}
