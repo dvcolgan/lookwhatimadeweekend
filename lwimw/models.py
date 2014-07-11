@@ -35,7 +35,7 @@ class Contest(models.Model):
             return 'during'
         elif now < self.start + relativedelta(hours=49):
             return 'submitting'
-        elif now < self.start + relativedelta(hours=49, weeks=2):
+        elif now < self.start + relativedelta(hours=48, weeks=2):
             return 'judging'
         else:
             return 'after'
