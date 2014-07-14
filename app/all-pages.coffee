@@ -1,5 +1,6 @@
-ALL_PAGES =
+window.ALL_PAGES = {
     home: ->
+};
 
 $ ->
     $('.alert').slideDown()

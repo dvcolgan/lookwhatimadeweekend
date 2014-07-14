@@ -14,8 +14,9 @@
 
     {% block head %}{% endblock %}
 
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/vendor.css">
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/app.css">
+    <link href="/bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet" media="screen">
+    <script src="/bower_components/less/dist/less-1.7.1.min.js"></script>
+    <link rel="stylesheet/less" type="text/css" href="/static/style.less" />
 </head>
 <body class="{% block body_class %}{% endblock %}">
 
@@ -98,11 +99,8 @@
     </div>
 </div>
 
-<script src='{{ STATIC_URL }}js/vendor.js'></script>
-<script src='{{ STATIC_URL }}js/app.js'></script>
-<script>
-require('all-pages');
-</script>
+<script src="{{ STATIC_URL }}bootstrap/js/bootstrap.min.js"></script>
+<script src="{{ STATIC_URL }}all-pages.js"></script>
 {% block foot %}{% endblock %}
 </body>
 </html>
