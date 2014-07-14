@@ -9,7 +9,7 @@
  
 {% block content %}
     <h2>{{ post.title }}</h2>
-    <p>By {{ post.author }} on {{ post.creation_date|naturaltime }}</p>
+    <p>By <a href="/profile/{{ post.author.id }}/" title="{{ post.author }}">{{ post.author }}</a> on {{ post.creation_date|naturaltime }}</p>
     {{ post.body|markdown }}
     {% if post.image %}<img src="{{ post.image.url }}" class="img-responsive" />{% endif %}
     <hr />
@@ -25,7 +25,7 @@
     {% if comments %}
         <h3>Comments</h3>
         {% for comment in comments %}
-            <div class="row-fluid">
+            <div class="row-fluid" id="comments">
                 <div class="col-lg-{% if comment.comment_level <= 12 %}{{ comment.comment_level }}{% else %}12{% endif %} pull-right">
                     <h3 class="page-header">Comment by {{ comment.author }}</h3>
                     <h4>{{ comment.creation_date|naturaltime }}</h4>

@@ -9,16 +9,19 @@
 {% block body_class %}home{% endblock %}
 
 {% block content %}
-
-{% for post in posts %}
-<div class="post">
-    <h2><a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a></h2>
-    <p>By {{ post.author }} on {{ post.creation_date|naturaltime }}</p>
-    {{ post.body|markdown }}
-    {% if post.image %}<img src="{{ post.image.url }}" />{% endif %}
-</div>
-<hr/>
-{% endfor %}
+{% if posts %}
+    {% for post in posts %}
+    <div class="post">
+        <h2><a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a></h2>
+        <p>By {{ post.author }} on {{ post.creation_date|naturaltime }}&nbsp;&nbsp;<span><a href="{% url 'post_detail' post.pk %}#comments" title="View Comments"><i class="glyphicon glyphicon-comment"></i> View Comments</a></span></p>
+        {{ post.body|markdown }}
+        {% if post.image %}<img src="{{ post.image.url }}" />{% endif %}
+    </div>
+    <hr/>
+    {% endfor %}
+{% else %}
+    <h3>There are no posts found.</h3>
+{% endif %}
 
 <div class="pagination">
     <span class="step-links">

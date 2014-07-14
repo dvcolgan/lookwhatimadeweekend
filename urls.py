@@ -6,6 +6,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'', include('lwimw.urls')),
+    url(r'^posts/', include('blog.urls')),
     url(r'^accounts/', include('registration.backends.default.urls')),
 
     url(r'^account/password-change/$', 'django.contrib.auth.views.password_change', name='password_change'),

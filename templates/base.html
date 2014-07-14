@@ -54,7 +54,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        Hello {{ request.user.username }}<span class="caret"></span>
+                        Hello {% if user.is_authenticated %} {{ request.user.username }} {% else %} Maker {% endif %} <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
                         {% if request.user.is_authenticated %}

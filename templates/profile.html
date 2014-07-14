@@ -10,7 +10,7 @@
 {% block content %}
 <div class="post">
     <h2>{{ user.username }}'s profile</h2>
-    {% if not submissions and not posts %}
+    {% if not submissions and not posts and not comments %}
         <h3>This user has not done anything on the site. But that might change...</h3>
     {% endif %}
     {% if submissions %}
