@@ -1,18 +1,18 @@
 from django.db import models
-from django.db.models import Sum, Avg
+from django.db.models import Avg
 from django.contrib.auth.models import *
 from django.utils import timezone
-from util.functions import *
-import re
-import ipdb
-from datetime import date, timedelta
-from dateutil.relativedelta import relativedelta 
+from datetime import timedelta
+from dateutil.relativedelta import relativedelta
+
 
 def user_can_vote(user, submissions):
     return bool(filter(lambda s: s.user.pk == user.pk, submissions))
 
+
 class ContestManager(models.Manager):
     pass
+
 
 class Contest(models.Model):
     number = models.PositiveIntegerField(unique=True)
@@ -47,17 +47,15 @@ class Contest(models.Model):
         return self.start + timedelta(hours=49)
 
     def get_judging_time(self):
-        return self.start + timedelta(hours=48+14*24)
+        return self.start + timedelta(hours=48 + 14 * 24)
 
     def can_submit(self, now):
         state = self.get_contest_state(now)
         return state == 'during' or state == 'submitting'
-        
 
-        
     def get_results(self):
-
-        return (self.submissions.all().
+        return (
+            self.submissions.all().
             annotate(avg_innovation=Avg('ratings__innovation')).
             annotate(avg_refinement=Avg('ratings__refinement')).
             annotate(avg_artistry=Avg('ratings__artistry')).
@@ -77,7 +75,6 @@ class Category(models.Model):
         verbose_name_plural = 'categories'
 
 
-
 class Submission(models.Model):
     user = models.ForeignKey(User, related_name='submissions')
     contest = models.ForeignKey(Contest, related_name='submissions')
@@ -95,6 +92,7 @@ class Submission(models.Model):
     def __unicode__(self):
         return self.title
 
+
 class Rating(models.Model):
     RATINGS = (
         (0, 'Not Applicable'),
@@ -111,7 +109,7 @@ class Rating(models.Model):
     refinement = models.PositiveIntegerField(choices=RATINGS)
     artistry = models.PositiveIntegerField(choices=RATINGS)
     overall = models.PositiveIntegerField(choices=RATINGS)
-    comments = models.TextField(blank=True)
+    comments = models.TextField()
 
     def __unicode__(self):
         return self.submission
@@ -122,6 +120,20 @@ class Post(models.Model):
     contest = models.ForeignKey(Contest, related_name='posts')
     creation_date = models.DateTimeField(auto_now_add=True)
     title = models.CharField(max_length=255)
-    body = models.TextField(blank=True)
+    body = models.TextField()
     image = models.ImageField('Image (Optional)', upload_to='post_images', blank=True, null=True)
 
+    def __unicode__(self):
+        return self.author.username + "'s post with the title of " + self.title
+
+
+class PostComment(models.Model):
+    author = models.ForeignKey(User, related_name='commenter')
+    post = models.ForeignKey(Post, related_name='posts_commented')
+    comment_replied = models.ForeignKey("self", related_name='comment_replied_to', blank=True, null=True)
+    creation_date = models.DateTimeField(auto_now_add=True)
+    body = models.TextField()
+    comment_level = models.IntegerField(default=12)
+
+    def __unicode__(self):
+        return self.author.username + "'s comment on the post by " + self.post.author.username + " with the title " + self.post.title
