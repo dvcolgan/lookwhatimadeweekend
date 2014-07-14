@@ -35,18 +35,20 @@
                             {% endif %}
 
                             {% if request.user.is_authenticated %}
-                            <a class="btn btn-success btn-lg btn-block" href="{% url 'submission_detail' contest.number request.user.id %}">
-                                {% if contest_state == 'during' or contest_state == 'submitting' %}
-                                    Edit Your Submission
-                                {% elif contest_state != 'before' %}
-                                    View Your Submission
-                                {% endif %}
+                                {% if contest_state != 'before' %}
+                                    <a class="btn btn-success btn-lg btn-block" href="{% url 'submission_detail' contest.number request.user.id %}">
+                                        {% if contest_state == 'during' or contest_state == 'submitting' %}
+                                            Edit Your Submission
+                                        {% elif contest_state != 'before' %}
+                                            View Your Submission
+                                        {% endif %}
 
-                                {% comment %}
-                                if you didn't make a submission in a past contest, the view my submission will say forbidden
-                                {% elif contest_state != 'before' and request.user.submissions in contest.submissions.all %}
-                                {% endcomment %}
-                            </a>
+                                        {% comment %}
+                                        if you didn't make a submission in a past contest, the view my submission will say forbidden
+                                        {% elif contest_state != 'before' and request.user.submissions in contest.submissions.all %}
+                                        {% endcomment %}
+                                    </a>
+                                {% endif %}
                             {% endif %}
                             {% if contest_state != 'before' %}
                                 <a class="btn btn-primary btn-lg btn-block" href="{% url 'submissions_list' contest.number %}">
