@@ -14,8 +14,10 @@
 
     {% block head %}{% endblock %}
 
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/vendor.css">
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/app.css">
+    <link href="{{ STATIC_URL }}bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="{{ STATIC_URL }}countdown/jquery.countdown.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet/less" type="text/css" href="/static/style.less" />
+    <script src="{{ STATIC_URL }}less-1.7.3.min.js"></script>
 </head>
 <body class="{% block body_class %}{% endblock %}">
 
@@ -69,12 +71,12 @@
         </nav>
 
         <div class="row">
-            <div class="col-sm-8">
+            <div class="col-xs-8">
                 <div class="content">
                     {% block content %}{% endblock %}
                 </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-xs-4">
                 <div class="sidebar">
                     {% include "contest_accordion.html" %}
 
@@ -98,11 +100,10 @@
     </div>
 </div>
 
-<script src='{{ STATIC_URL }}js/vendor.js'></script>
-<script src='{{ STATIC_URL }}js/app.js'></script>
-<script>
-require('all-pages');
-</script>
+<script src="{{ STATIC_URL }}jquery.js"></script>
+<script src="{{ STATIC_URL }}bootstrap/js/bootstrap.min.js"></script>
+<script src="{{ STATIC_URL }}countdown/jquery.countdown.js"></script>
+<script src="{{ STATIC_URL }}all-pages.js"></script>
 {% block foot %}{% endblock %}
 </body>
 </html>

@@ -16,7 +16,7 @@ class ContestManager(models.Manager):
 
 class Contest(models.Model):
     number = models.PositiveIntegerField(unique=True)
-    theme = models.CharField(max_length=255)
+    theme = models.CharField(max_length=255, blank=True)
     start = models.DateTimeField()
 
     objects = ContestManager()
