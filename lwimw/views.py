@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.template import RequestContext
 from django.contrib import messages 
 from django.http import HttpResponseRedirect, Http404, HttpResponse
@@ -38,13 +38,13 @@ def home(request):
 def guidelines(request):
     return render(request, 'guidelines.html', locals())
 
-@login_required
 def profile(request, user_id=None):
     if user_id == None:
         return HttpResponseRedirect(reverse('profile', args=(request.user.id,)))
     user = get_object_or_404(User, id=user_id)
     submissions = user.submissions.order_by('contest')
-    posts = Post.objects.filter(author=user)
+    posts = Post.objects.select_related().filter(author=user)
+    comments = PostComment.objects.filter(author=user)
     return render(request, 'profile.html', locals())
 
 def irc(request):
@@ -55,11 +55,11 @@ def submission_edit(request, number):
     current_contest = RequestContext(request)['current_contest']
     contest = get_object_or_404(Contest, number=number)
     if contest.pk != current_contest.pk:
-        raise PermissionDenied
+        return redirect('home')
     else:
         state = contest.get_contest_state(timezone.now())
         if state != 'during' and state != 'submitting' and state != 'judging':
-            raise PermissionDenied
+            return redirect('home')
     submission = get_object_or_None(Submission, user=request.user, contest=contest)
     if request.method == 'POST':
         form = SubmissionForm(request.POST, request.FILES, instance=submission)
@@ -135,7 +135,7 @@ def post_edit(request, post_id):
     current_contest = RequestContext(request)['current_contest']
     post = get_object_or_404(Post, id=post_id)
     if post.author.pk != request.user.pk:
-        raise PermissionDenied
+        return redirect('home')
     if request.method == 'POST':
         form = CreatePostForm(request.POST, request.FILES, instance=post)
         form.instance.author = request.user
@@ -150,4 +150,15 @@ def post_edit(request, post_id):
 def post_detail(request, post_id):
     current_contest = RequestContext(request)['current_contest']
     post = get_object_or_404(Post, id=post_id)
+    if request.method == 'POST':
+        form = CreatePostCommentForm(request.POST)
+        form.instance.author = request.user
+        form.instance.post = post
+        if form.is_valid():
+            form.save()
+            messages.add_message(request, messages.SUCCESS, 'Your comment has been added!')
+            return HttpResponseRedirect(reverse('post_detail', args=(post.id,)))
+    else:
+        form = CreatePostCommentForm()
+        comments = PostComment.objects.all().select_related().filter(post=post)
     return render(request, 'post_detail.html', locals())

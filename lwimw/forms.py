@@ -1,6 +1,7 @@
 from django import forms
 from lwimw.models import *
 
+
 class SubmissionForm(forms.ModelForm):
     class Meta:
         model = Submission
@@ -18,3 +19,8 @@ class CreatePostForm(forms.ModelForm):
         model = Post
         exclude = ('contest', 'author')
 
+
+class CreatePostCommentForm(forms.ModelForm):
+    class Meta:
+        model = PostComment
+        exclude = ('author', 'post', 'comment_replied', 'creation_date', 'comment_level')
