@@ -153,7 +153,7 @@ def post_detail(request, post_id):
     if request.method == 'POST':
         form = CreatePostCommentForm(request.POST)
         form.instance.author = request.user
-        form.instance.post = post.id
+        form.instance.post = post
         if form.is_valid():
             form.save()
             messages.add_message(request, messages.SUCCESS, 'Your comment has been added!')
