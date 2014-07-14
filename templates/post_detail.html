@@ -1,15 +1,42 @@
 {% extends "base.html" %}
 {% load custom_tags %}
 {% load bootstrap %}
+{% load humanize %}
 
 {% block title %}{{ post.title }}{% endblock %}
 
 {% block body_class %}post_detail{% endblock %}
  
 {% block content %}
-<h2>{{ post.title }}</h2>
-<p>By {{ post.author }} on {{ post.creation_date }}</p>
-{{ post.body|markdown }}
-{% if post.image %}<img src="{{ post.image.url }}" />{% endif %}
+    <h2>{{ post.title }}</h2>
+    <p>By {{ post.author }} on {{ post.creation_date|naturaltime }}</p>
+    {{ post.body|markdown }}
+    {% if post.image %}<img src="{{ post.image.url }}" class="img-responsive" />{% endif %}
+    <hr />
+    {% if user.is_authenticated %}
+        <h4>Add your own comment!</h4>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form|bootstrap }}
+            <input type="submit" class="btn btn-success" value="Add Comment" />
+        </form>
+        <hr />
+    {% endif %}
+    {% if comments %}
+        <h3>Comments</h3>
+        {% for comment in comments %}
+            <div class="row-fluid">
+                <div class="col-lg-{% if comment.comment_level <= 12 %}{{ comment.comment_level }}{% else %}12{% endif %} pull-right">
+                    <h3 class="page-header">Comment by {{ comment.author }}</h3>
+                    <h4>{{ comment.creation_date|naturaltime }}</h4>
+                    <p>{{ comment.body|markdown|removetags:"img"|safe }}</p>
+                    <br />
+                    <br />
+                    <a href="#reply" title="Reply" class="reply">Reply</a>
+                </div>
+            </div>
+            <hr />
+        {% endfor %}
+    {% endif %}
 {% endblock %}
 

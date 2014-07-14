@@ -39,7 +39,7 @@ body {
 }
 .header.jumbotron a img {
   width: 100%;
-  max-width: 960px;
+  max-width: 1170px;
 }
 .innerwrap {
   position: relative;
@@ -91,6 +91,12 @@ form.narrow {
 .panel-default > .panel-heading {
   background-color: #428bca;
   color: white;
+}
+#streams {
+  max-width: 100%;
+  height: auto;
+  border: 0;
+  background: #f8f8f8;
 }
 
 
