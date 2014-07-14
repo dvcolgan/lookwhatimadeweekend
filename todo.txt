@@ -38,6 +38,10 @@ have this on the sidebar, show the categories, have a link to submit a category
 http://toopay.github.io/bootstrap-markdown/
 http://hackerwins.github.io/summernote/
 
+Add badges to users.
+Add nicknames to users.
+Add gravatar to users.
+
 
 Done
 -------
@@ -55,3 +59,4 @@ Done
 -non-logged in users can view posts and submissions
 add the subreddit to the site
 make it so you can automatically add your stream to the sidebar
+Added humans.txt

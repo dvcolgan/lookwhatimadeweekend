@@ -3,7 +3,7 @@
 {% load bootstrap %}
 {% load humanize %}
 
-{% block title %}Your Profile{% endblock %}
+{% block title %}{{ user.username|title }}'s Profile{% endblock %}
 
 {% block body_class %}profile{% endblock %}
 
