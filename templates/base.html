@@ -45,23 +45,26 @@
 
             <div class="collapse navbar-collapse navbar-header-collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'home' %}">Posts</a></li>
                     <li><a href="{% url 'guidelines' %}">Guidelines</a></li>
-                    <li><a href="{% url 'irc' %}">IRC</a></li>
-
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    {% if request.user.is_authenticated %}
-                    <li><a href="{% url 'post_create' %}">Write a Blog Post</a></li>
-                    <li><a href="{% url 'profile' request.user.id %}">{{ request.user.username|capfirst }}'s Profile</a></li>
-                    <li><a href="{% url 'auth_logout' %}">Logout</a></li>
-                    {% else %}
-                    <li><a href="{% url 'registration_register' %}">Create Account</a></li>
-                    <li><a href="{% url 'auth_login' %}">Log In</a></li>
-                    {% endif %}
+                    <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        Hello {{ request.user.username }}<span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        {% if request.user.is_authenticated %}
+                            <li><a href="{% url 'post_create' %}">Write a Blog Post</a></li>
+                            <li><a href="{% url 'profile' request.user.id %}">{{ request.user.username }}'s Profile</a></li>
+                            <li><a href="{% url 'auth_logout' %}">Logout</a></li>
+                        {% else %}
+                            <li><a href="{% url 'registration_register' %}">Create Account</a></li>
+                            <li><a href="{% url 'auth_login' %}">Log In</a></li>
+                        {% endif %}
+                    </ul>
                 </ul>
             </div><!-- /.navbar-collapse -->
-
         </nav>
 
         <div class="row">
