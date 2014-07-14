@@ -111,7 +111,7 @@ class Rating(models.Model):
     refinement = models.PositiveIntegerField(choices=RATINGS)
     artistry = models.PositiveIntegerField(choices=RATINGS)
     overall = models.PositiveIntegerField(choices=RATINGS)
-    comments = models.TextField(blank=True)
+    comments = models.TextField()
 
     def __unicode__(self):
         return self.submission
@@ -122,6 +122,17 @@ class Post(models.Model):
     contest = models.ForeignKey(Contest, related_name='posts')
     creation_date = models.DateTimeField(auto_now_add=True)
     title = models.CharField(max_length=255)
-    body = models.TextField(blank=True)
+    body = models.TextField()
     image = models.ImageField('Image (Optional)', upload_to='post_images', blank=True, null=True)
+    def __unicode__(self):
+        return self.author.username + "'s post with the title of " + self.title
 
+class PostComment(models.Model):
+    author = models.ForeignKey(User, related_name='commenter')
+    post = models.ForeignKey(Post, related_name='post_commented')
+    comment_replyed = models.ForeignKey("PostComment", related_name='comment_replyed_to', blank=True, null=True)
+    creation_date = models.DateTimeField(auto_now_add=True)
+    body = models.TextField()
+    comment_level = models.IntegerField(default=12)
+    def __unicode__(self):
+        return self.author.username + "'s comment on the post by " + self.post.author.username + " with the title " + self.post.title

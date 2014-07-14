@@ -18,3 +18,7 @@ class CreatePostForm(forms.ModelForm):
         model = Post
         exclude = ('contest', 'author')
 
+class CreatePostCommentForm(forms.ModelForm):
+    class Meta:
+        model = PostComment
+        exclude = ('author', 'post', 'comment_replyed', 'creation_date', 'comment_level')
