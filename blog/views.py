@@ -65,6 +65,18 @@ def post_detail(request, post_id):
 
 
 @login_required
+def post_delete(request):
+    if request.method == 'POST' and request.is_ajax():
+        post = get_object_or_404(Post, id=request.POST.get("id", ''))
+        if post.author == request.user:
+            post.deleted = True
+            post.save()
+            return HttpResponse(json.dumps({ 'post_deleted': post.id, "post_author": post.author.username }), content_type='application/json')
+        return HttpResponse(json.dumps({ 'error': "You are not the creator of the post!" }), content_type='application/json')
+    return HttpResponse(json.dumps({ 'error': "The request was not AJAX or a POST." }), content_type='application/json')
+
+
+@login_required
 def comment_reply(request):
     if request.method == 'POST' and request.is_ajax():
         author = request.user

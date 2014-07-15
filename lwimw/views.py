@@ -24,7 +24,7 @@ import datetime
 
 def home(request):
     current_contest = RequestContext(request)['current_contest']
-    post_list = Post.objects.order_by('-creation_date')
+    post_list = Post.objects.order_by('-creation_date').filter(deleted=False)
     paginator = Paginator(post_list, 20)
     page = request.GET.get('page')
     try:
@@ -42,10 +42,10 @@ def guidelines(request):
 def profile(request, user_id=None):
     if user_id == None:
         return HttpResponseRedirect(reverse('profile', args=(request.user.id,)))
-    user = get_object_or_404(User, id=user_id)
-    submissions = user.submissions.order_by('contest')
-    posts = Post.objects.select_related().filter(author=user)
-    comments = PostComment.objects.filter(author=user, deleted=False)
+    profile_user = get_object_or_404(User, id=user_id)
+    submissions = profile_user.submissions.order_by('contest')
+    posts = Post.objects.filter(author=profile_user, deleted=False)
+    comments = PostComment.objects.filter(author=profile_user, deleted=False, post__deleted=False)
     return render(request, 'profile.html', locals())
 
 def irc(request):

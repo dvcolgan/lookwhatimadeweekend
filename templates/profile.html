@@ -3,13 +3,13 @@
 {% load bootstrap %}
 {% load humanize %}
 
-{% block title %}{{ user.username|title }}'s Profile{% endblock %}
+{% block title %}{{ profile_user.username|title }}'s Profile{% endblock %}
 
 {% block body_class %}profile{% endblock %}
 
 {% block content %}
 <div class="post">
-    <h2>{{ user.username }}'s profile</h2>
+    <h2>{{ profile_user.username }}'s profile</h2>
     {% if not submissions and not posts and not comments %}
         <h3>This user has not done anything on the site. But that might change...</h3>
     {% endif %}
@@ -47,6 +47,9 @@
                 <tr>
                     <td><a href="{% if post.author == user %}{% url 'post_edit' post.id %}{% elif post.author != user %}{% url 'post_detail' post.id %}{% endif %}">{{ post.title }}</a></td>
                     <td>{{ post.contest.number }}</td>
+                    {% if post.author == user %}
+                        <td><a href="#delete" title="Delete" class="delete" data-object-id="{{ post.id }}" data-object-name="{{ post.title }}" data-object-url="/posts/delete/"><i class="glyphicon glyphicon-trash"></i> Delete</a></td>
+                    {% endif %}
                 </tr>
                 {% endfor %}
         </table>

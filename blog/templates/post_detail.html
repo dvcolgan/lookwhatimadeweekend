@@ -51,7 +51,7 @@
                                 </form>
                             </div>
                             {% if comment.author == user %}
-                                <a href="#delete" title="Delete" class="delete" data-object-id="{{ comment.id }}" data-object-name="Your comment on {{ comment.post.title }} by {{ comment.post.author.username }}"><i class="glyphicon glyphicon-trash"></i> Delete</a>
+                                <a href="#delete" title="Delete" class="delete" data-object-id="{{ comment.id }}" data-object-name="Your comment on {{ comment.post.title }} by {{ comment.post.author.username }}" data-object-url="/posts/comment/delete/"><i class="glyphicon glyphicon-trash"></i> Delete</a>
                             {% endif %}
                         {% endif %}
                         <hr />

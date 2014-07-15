@@ -5,7 +5,7 @@ from blog.models import *
 class CreatePostForm(forms.ModelForm):
     class Meta:
         model = Post
-        exclude = ('contest', 'author', 'deleted')
+        exclude = ('contest', 'author', 'deleted', 'comments')
 
 
 class CreatePostCommentForm(forms.ModelForm):

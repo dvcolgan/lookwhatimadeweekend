@@ -132,9 +132,11 @@ $(document).ready(function() {
         e.preventDefault();
         // Get the current element clicked
         var elem = $(this);
-        // Find the image element in the modal.
+        // Find set the id of the object to be deleted
         $deleteConfirmModal.find('#delete-confirm').attr('data-object-id', elem.attr('data-object-id'));
-        // Find the image's permalink
+        // Find set the id of the object to be deleted
+        $deleteConfirmModal.find('#delete-confirm').attr('data-object-url', elem.attr('data-object-url'));
+        // Set the name of the object to be deleted
         $deleteConfirmModal.find('span.name').text(elem.attr('data-object-name'));
         // Open the modal
         $deleteConfirmModal.modal();
@@ -155,7 +157,7 @@ $(document).ready(function() {
                     xhr.setRequestHeader("X-CSRFToken", csrftoken);
                 }
             },
-            url: '/posts/comment/delete/',
+            url: elem.attr('data-object-url'),
             type: 'POST',
             data: { 'id': elem.attr('data-object-id') },
             crossDomain: false,
