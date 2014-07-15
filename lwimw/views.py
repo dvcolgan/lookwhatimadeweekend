@@ -45,7 +45,7 @@ def profile(request, user_id=None):
     user = get_object_or_404(User, id=user_id)
     submissions = user.submissions.order_by('contest')
     posts = Post.objects.select_related().filter(author=user)
-    comments = PostComment.objects.filter(author=user)
+    comments = PostComment.objects.filter(author=user, deleted=False)
     return render(request, 'profile.html', locals())
 
 def irc(request):

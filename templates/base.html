@@ -54,12 +54,12 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        Hello {% if user.is_authenticated %} {{ request.user.username }} {% else %} Maker {% endif %} <span class="caret"></span>
+                        Hello {% if user.is_authenticated %} {{ request.user.username }} {% else %} Creator {% endif %} <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
                         {% if request.user.is_authenticated %}
                             <li><a href="{% url 'post_create' %}">Write a Blog Post</a></li>
-                            <li><a href="{% url 'profile' request.user.id %}">{{ request.user.username }}'s Profile</a></li>
+                            <li><a href="{% url 'profile' request.user.id %}">Your Profile</a></li>
                             <li><a href="{% url 'auth_logout' %}">Logout</a></li>
                         {% else %}
                             <li><a href="{% url 'registration_register' %}">Create Account</a></li>
@@ -110,6 +110,24 @@
                     <br />
                     <br />
                     <a href="#" class="btn btn-lg btn-success" title="Image Permalink" id="permalink">Image Permalink</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Deletion Are You Sure Modal -->
+    <div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="deleteModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4>Are you sure?</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete <span class="name"></span>? It will be gone forever.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" id="delete-confirm">Yes</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
                 </div>
             </div>
         </div>

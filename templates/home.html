@@ -13,7 +13,7 @@
     {% for post in posts %}
     <div class="post">
         <h2><a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a></h2>
-        <p>By <a href="/profile/{{ post.author.id }}/" title="{{ post.author }}">{{ post.author }}</a> on {{ post.creation_date|naturaltime }}&nbsp;&nbsp;<span><a href="{% url 'post_detail' post.pk %}#comments" title="View Comments"><i class="glyphicon glyphicon-comment"></i> View Comments</a></span></p>
+        <p>By <a href="/profile/{{ post.author.id }}/" title="{{ post.author }}">{{ post.author }}</a> on {{ post.creation_date|naturaltime }}&nbsp;&nbsp;<span><a href="{% url 'post_detail' post.pk %}#comments" title="View Comments"><i class="glyphicon glyphicon-comment"></i> View {{ post.comments.count }} Comments</a></span></p>
         {{ post.body|markdown }}
         {% if post.image %}<img src="{{ post.image.url }}" />{% endif %}
     </div>

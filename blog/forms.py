@@ -5,10 +5,10 @@ from blog.models import *
 class CreatePostForm(forms.ModelForm):
     class Meta:
         model = Post
-        exclude = ('contest', 'author')
+        exclude = ('contest', 'author', 'deleted')
 
 
 class CreatePostCommentForm(forms.ModelForm):
     class Meta:
         model = PostComment
-        exclude = ('author', 'post', 'comment_replied', 'creation_date', 'comment_level')
+        exclude = ('author', 'post', 'comment_replied', 'creation_date', 'comment_level', 'deleted')
