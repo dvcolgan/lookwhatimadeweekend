@@ -1,6 +1,6 @@
 from django.db import models
 from django.db.models import Avg
-from django.contrib.auth.models import *
+from django.contrib.auth.models import User
 from django.utils import timezone
 from datetime import timedelta
 from dateutil.relativedelta import relativedelta
@@ -11,7 +11,12 @@ def user_can_vote(user, submissions):
 
 
 class ContestManager(models.Manager):
-    pass
+    def get_current(self):
+        contests = self.model.objects.order_by('-start')
+        if contests.exists():
+            return contests[0]
+        else:
+            return None
 
 
 class Contest(models.Model):
@@ -39,6 +44,12 @@ class Contest(models.Model):
             return 'judging'
         else:
             return 'after'
+
+    def get_theme_voting_state(self, now):
+        if now < self.start and now > self.start - relativedelta(hours=24):
+            return 'voting'
+        else:
+            return 'suggesting'
 
     def get_end_time(self):
         return self.start + timedelta(hours=48)

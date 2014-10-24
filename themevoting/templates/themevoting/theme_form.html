@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% load bootstrap %}
+
+{% block title %}Suggest a theme for LWIMW {{ current_contest.number }}{% endblock %}
+
+{% block content %}
+<div class="well">
+    <form action="" method="POST">{% csrf_token %}
+        <h2>What is a good theme for LWIMW {{ current_contest.number }}</h2>
+        {{ form|bootstrap }}
+        <input type="submit" class="btn btn-success" value="Submit" />
+    </form>
+</div>
+{% endblock %}

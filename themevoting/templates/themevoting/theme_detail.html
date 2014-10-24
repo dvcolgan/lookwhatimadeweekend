@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load bootstrap %}
+
+{% block title %}Theme Central{% endblock %}
+
+{% block content %}
+<h1>Theme Central</h1>
+<p>Here you can vote on or suggest themes for the next LWIMW!</p>
+{% if theme %}
+    <div class="well">
+        <p class="lead">What do you think of the theme:</p>
+        <div class="well">
+            <h1 class="text-center">{{ theme.name }}</h1>
+        </div>
+        <div class="row">
+            <div class="col-xs-6">
+                <form method="POST" action="{% url 'theme_bump_submit' theme.pk 'down' %}">{% csrf_token %}
+                    <input class="btn btn-lg btn-block btn-danger" type="submit" value="-1 Bad Theme" />
+                </form>
+            </div>
+            <div class="col-xs-6">
+                <form method="POST" action="{% url 'theme_bump_submit' theme.pk 'up' %}">{% csrf_token %}
+                    <input class="btn btn-lg btn-block btn-success" type="submit" value="+1 Good Theme" />
+                </form>
+            </div>
+        </div>
+    </div>
+    <p>Or,</p>
+{% else %}
+    <div class="well">
+        <h1>You have voted on all available themes.</h1>
+    </div>
+{% endif %}
+<p><a class="btn btn-success" href="{% url 'theme_create' %}">Suggest a Theme</a></p>
+{% endblock %}

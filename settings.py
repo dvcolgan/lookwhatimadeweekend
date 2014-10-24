@@ -130,6 +130,7 @@ INSTALLED_APPS = (
     'bootstrapform',
     'registration',
     'util',
+    'themevoting',
     'lwimw',
     'south',
     'debug_toolbar',
