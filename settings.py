@@ -30,13 +30,26 @@ DATABASES = {
         'PORT': '',
     }
 }
+
+DEBUG = False
+SITE_DOMAIN = 'lookwhatimadeweek.com'
+SERVER = 'testing'
+
+# Override prod settings here using your dev host name
+
+# dvcolgan
 if HOSTNAME == 'impetus':
+    DEBUG = True
     SITE_DOMAIN = 'localhost:8000'
     SERVER = 'local'
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-else:
-    SITE_DOMAIN = 'lookwhatimadeweek.com'
-    SERVER = 'testing'
+
+# stett
+elif HOSTNAME == 'boa-hancock':
+    DEBUG = True
+    SITE_DOMAIN = 'localhost:8000'
+    SERVER = 'local'
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
 EMAIL_PORT = 25
