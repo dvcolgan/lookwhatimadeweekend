@@ -31,6 +31,7 @@ DATABASES = {
     }
 }
 
+ALLOWED_HOSTS = ['lookwhatimadeweek.com', 'lwimw.lessboring.com']
 DEBUG = False
 SITE_DOMAIN = 'lookwhatimadeweek.com'
 SERVER = 'testing'
@@ -46,6 +47,7 @@ if HOSTNAME == 'impetus':
 
 # stett
 elif HOSTNAME == 'boa-hancock':
+    ALLOWED_HOSTS = ['localhost']
     DEBUG = True
     SITE_DOMAIN = 'localhost:8000'
     SERVER = 'local'
