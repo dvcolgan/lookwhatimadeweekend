@@ -48,6 +48,7 @@
                                 {% endcomment %}
                             </a>
                             {% endif %}
+                            
                             {% if contest_state != 'before' %}
                                 <a class="btn btn-primary btn-lg btn-block" href="{% url 'submissions_list' contest.number %}">
                                     {% if contest_state == 'judging' and contest.can_vote %}

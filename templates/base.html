@@ -14,8 +14,10 @@
 
     {% block head %}{% endblock %}
 
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/vendor.css">
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/app.css">
+    <link href="{{ STATIC_URL }}bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="{{ STATIC_URL }}countdown/jquery.countdown.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet/less" type="text/css" href="/static/style.less" />
+    <script src="{{ STATIC_URL }}less-1.7.3.min.js"></script>
 </head>
 <body class="{% block body_class %}{% endblock %}">
 
@@ -45,46 +47,42 @@
 
             <div class="collapse navbar-collapse navbar-header-collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'home' %}">Posts</a></li>
                     <li><a href="{% url 'guidelines' %}">Guidelines</a></li>
-                    <li><a href="{% url 'irc' %}">IRC</a></li>
-
+                    <li><a target="_blank" href="http://www.reddit.com/r/lwimw" title="LWIMW Subreddit">LWIMW Subreddit</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    {% if request.user.is_authenticated %}
-                    <li><a href="{% url 'post_create' %}">Write a Blog Post</a></li>
-                    <li><a href="{% url 'profile' request.user.id %}">{{ request.user.username|capfirst }}'s Profile</a></li>
-                    <li><a href="{% url 'auth_logout' %}">Logout</a></li>
-                    {% else %}
-                    <li><a href="{% url 'registration_register' %}">Create Account</a></li>
-                    <li><a href="{% url 'auth_login' %}">Log In</a></li>
-                    {% endif %}
+                    <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        Hello {{ request.user.username }}<span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        {% if request.user.is_authenticated %}
+                            <li><a href="{% url 'post_create' %}">Write a Blog Post</a></li>
+                            <li><a href="{% url 'profile' request.user.id %}">{{ request.user.username }}'s Profile</a></li>
+                            <li><a href="{% url 'auth_logout' %}">Logout</a></li>
+                        {% else %}
+                            <li><a href="{% url 'registration_register' %}">Create Account</a></li>
+                            <li><a href="{% url 'auth_login' %}">Log In</a></li>
+                        {% endif %}
+                    </ul>
                 </ul>
             </div><!-- /.navbar-collapse -->
-
         </nav>
 
         <div class="row">
-            <div class="col-sm-8">
+            <div class="col-xs-8">
                 <div class="content">
                     {% block content %}{% endblock %}
                 </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-xs-4">
                 <div class="sidebar">
                     {% include "contest_accordion.html" %}
 
                     <!-- Have this be generated and be able to put your stream in your profile -->
                     <div class="widget">
-                        <p><a href="http://www.twitch.tv/dvcolgan">DVColgan's Stream</a></p>
-                        <p><a href="http://www.twitch.tv/taugeshtu">Tau's Stream</a></p>
-                        <p><a href="http://www.twitch.tv/zzforrest">zzForrest's Stream</a></p>
-                        <p><a href="http://www.twitch.tv/encryptedcow">EncryptedCow's Stream</a></p>
-                        <p><a href="http://twitch.tv/thepattybeast">ThePattyBeast's Stream</a></p>
-                        <p><a href="http://twitch.tv/jordanfitz">JordanFitz's Stream</a></p>
-                        <p><a href="http://twitch.tv/napen123">Napen123's Stream</a></p>
-                        <p><a href="http://www.twitch.tv/chocolatebird">ChocolateBird's Stream</a></p>
-
+                        <iframe src="http://jordanfitz.com/lwimw/" id="streams" class="embed-responsive-item"></iframe>
                     </div>
 
                     <div class="widget">
@@ -102,11 +100,10 @@
     </div>
 </div>
 
-<script src='{{ STATIC_URL }}js/vendor.js'></script>
-<script src='{{ STATIC_URL }}js/app.js'></script>
-<script>
-require('all-pages');
-</script>
+<script src="{{ STATIC_URL }}jquery.js"></script>
+<script src="{{ STATIC_URL }}bootstrap/js/bootstrap.min.js"></script>
+<script src="{{ STATIC_URL }}countdown/jquery.countdown.js"></script>
+<script src="{{ STATIC_URL }}all-pages.js"></script>
 {% block foot %}{% endblock %}
 </body>
 </html>
