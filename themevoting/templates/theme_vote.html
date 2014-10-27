@@ -8,11 +8,11 @@
 
 <div class="well">
     <ol>
-        {% for theme in themes %}
-        <li class="theme-vote">
+        {% for vote in votes %}
+        <li class="theme-vote" id="{{ vote.theme.id }}">
             <a href="#" class="up"><span class="glyphicon glyphicon-arrow-up"></span></a>
             <a href="#" class="down"><span class="glyphicon glyphicon-arrow-down"></span></a>
-            {{ theme }}
+            {{ vote.theme }}
         </li>
         {% endfor %}
     </ol>
@@ -20,12 +20,10 @@
 
 
 <p>
-<a class="btn btn-success" href="#">Save Ranking</a>
+<a class="btn btn-success save-vote" href="#">Save Ranking</a>
 </p>
-
 {% endblock %}
 
 {% block foot %}
-<script src="{{ STATIC_URL }}jquery.swap.js"></script>
 <script src="{{ STATIC_URL }}vote.js"></script>
 {% endblock %}

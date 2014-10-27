@@ -5,6 +5,9 @@ from lwimw.models import Contest
 
 
 class ThemeManager(models.Manager):
+    def get_top_theme(self, contest):
+        pass
+
     def get_remaining_themes(self, contest):
         """
         Return a list of themes for a contest, excluding items which were
@@ -43,7 +46,31 @@ class ThemeBump(models.Model):
     direction = models.CharField(max_length=10, choices=DIRECTION_CHOICES)
 
     def __unicode__(self):
-        return "%s (%s)" % (theme, direction)
+        return "%s (%s)" % (self.theme, self.direction)
+
+
+class VoteManager(models.Manager):
+    def get_or_none(self, *args, **kwargs):
+        try:
+            return self.get(*args, **kwargs)
+        except:
+            return None
+
+    def get_votes(self, contest, user):
+        """
+        Generates a vote for this user, for each remaining theme in this
+        contest. It then returns a query for all the touched votes.
+        """
+        # Loop over all themes that have not been eliminated, generating a null
+        # vote for each.
+        themes = Theme.objects.get_remaining_themes(contest)
+        for theme in themes:
+            vote = Vote(user=user, theme=theme, rating=0)
+            vote.save(overwrite=False)
+
+        # Return all votes by this user for this contest. There should be one
+        # for each remaining theme.
+        return self.filter(theme__contest=contest, user=user)
 
 
 class Vote(models.Model):
@@ -51,5 +78,24 @@ class Vote(models.Model):
     theme = models.ForeignKey(Theme, related_name='votes')
     rating = models.IntegerField()
 
+    objects = VoteManager()
+
+    class Meta:
+        ordering = ['-rating', ]
+
+    def save(self, overwrite=True):
+
+        # Check to see if this user has already voted on this theme.
+        # If they have, then just update the old vote with the new rating.
+        # Otherwise, save this new vote object. This ensures that the same
+        # person can't vote for the same theme more than once, and that
+        # their most recent vote will count.
+        vote = Vote.objects.get_or_none(user=self.user, theme=self.theme)
+        if vote is None:
+            super(Vote, self).save()
+        elif overwrite:
+            vote.rating = self.rating
+            vote.save()
+
     def __unicode__(self):
-        return "%s (%s)" % (theme, rating)
+        return "%s (%s)" % (self.theme, self.rating)
