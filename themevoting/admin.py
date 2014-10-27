@@ -1,3 +1,6 @@
 from django.contrib import admin
+from themevoting.models import Theme, ThemeBump, Vote
 
-# Register your models here.
+admin.site.register(Theme)
+admin.site.register(ThemeBump)
+admin.site.register(Vote)
