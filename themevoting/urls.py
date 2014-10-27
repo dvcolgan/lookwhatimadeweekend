@@ -9,4 +9,5 @@ urlpatterns = patterns('themevoting.views',
     url(r'^bump/$', ThemeBumpView.as_view(), name='theme_bump'),
     url(r'^bump/(?P<pk>\d+)/(?P<direction>up|down)/$', 'theme_bump_submit', name='theme_bump_submit'),
     url(r'^suggest/$', ThemeCreateView.as_view(), name='theme_create'),
+    url(r'^vote/$', 'theme_vote_view', name='theme_vote'),
 )

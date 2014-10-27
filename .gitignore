@@ -7,3 +7,4 @@ env
 media
 secret.py
 private.py
+site-static

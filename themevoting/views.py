@@ -11,6 +11,8 @@ from .models import Theme, ThemeBump, Vote
 def theme_dispatch(request):
     now = timezone.now()
     current_contest = Contest.objects.get_current()
+    print("CURRENT CONTEST STATE")
+    print(current_contest.get_contest_state(now))
     if (current_contest.get_contest_state(now) == 'before'):
         if (current_contest.get_theme_voting_state(now) == 'voting'):
             return redirect('theme_vote')
@@ -58,3 +60,16 @@ def theme_bump_submit(request, pk, direction):
         bump.save()
 
     return redirect('theme_bump')
+
+
+def theme_vote_view(request):
+    now = timezone.now()
+    current_contest = Contest.objects.get_current()
+    if (current_contest and current_contest.get_theme_voting_state(now) == 'voting'):
+        context = {
+            'contest': current_contest,
+            'themes': Theme.objects.get_remaining_themes(current_contest),
+        }
+        return render(request, 'theme_vote.html', context)
+    else:
+        return redirect('home')

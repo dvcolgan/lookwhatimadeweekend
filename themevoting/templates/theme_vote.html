@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load bootstrap %}
+
+{% block title %}Theme Voting{% endblock %}
+
+{% block content %}
+<p>Click the arrows to rank themes, from bestest to worstest.</p>
+
+<div class="well">
+    <ol>
+        {% for theme in themes %}
+        <li class="theme-vote">
+            <a href="#" class="up"><span class="glyphicon glyphicon-arrow-up"></span></a>
+            <a href="#" class="down"><span class="glyphicon glyphicon-arrow-down"></span></a>
+            {{ theme }}
+        </li>
+        {% endfor %}
+    </ol>
+</div>
+
+
+<p>
+<a class="btn btn-success" href="#">Save Ranking</a>
+</p>
+
+{% endblock %}
+
+{% block foot %}
+<script src="{{ STATIC_URL }}jquery.swap.js"></script>
+<script src="{{ STATIC_URL }}vote.js"></script>
+{% endblock %}
