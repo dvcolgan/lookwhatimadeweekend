@@ -84,6 +84,8 @@ class Vote(models.Model):
         ordering = ['-rating', ]
 
     def save(self, overwrite=True):
+        # TODO:
+        # Find a better solution. This one's pretty damn slow.
 
         # Check to see if this user has already voted on this theme.
         # If they have, then just update the old vote with the new rating.

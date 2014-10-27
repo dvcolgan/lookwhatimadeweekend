@@ -21,6 +21,7 @@ $(function() {
 
     $('a.save-vote').click(function(e) {
         e.preventDefault();
+        var $self = $(this);
 
         // Make an ordered list of theme ids
         var themes = [];
@@ -30,11 +31,14 @@ $(function() {
         });
 
         // POST the order of the themes to the server
-        console.log(themes);
+        $self.addClass("disabled")
         $.ajax('/themes/vote-submit/', {
             type: 'post',
             dataType: 'text/json',
             data: {'themes': themes},
+            complete: function() {
+                $self.removeClass("disabled");
+            }
         });
     });
 });

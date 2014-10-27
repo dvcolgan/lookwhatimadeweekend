@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import CreateView, ListView, DetailView
 from django.core.urlresolvers import reverse_lazy
+from django.http import HttpResponse
 from django.utils import timezone
 from braces.views import LoginRequiredMixin
 from lwimw.models import Contest
@@ -102,4 +103,4 @@ def theme_vote_submit_view(request):
             vote.save()
             rating = rating - 1
 
-    return redirect('theme_vote')
+    return HttpResponse(200)
