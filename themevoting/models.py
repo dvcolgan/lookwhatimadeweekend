@@ -1,12 +1,15 @@
 from django.db import models
-from django.db.models import Count
+from django.db.models import Avg
 from django.contrib.auth.models import User
 from lwimw.models import Contest
 
 
 class ThemeManager(models.Manager):
     def get_top_theme(self, contest):
-        pass
+        """
+        Returns the currently winning theme for a particular contest.
+        """
+        return self.filter(contest=contest).annotate(rating=Avg('votes__rating')).order_by('-rating')[0]
 
     def get_remaining_themes(self, contest):
         """

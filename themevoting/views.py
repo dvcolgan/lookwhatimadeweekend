@@ -73,6 +73,7 @@ def theme_vote_view(request):
             current_contest.get_theme_voting_state(now) == 'voting'):
 
         context = {
+            'top_theme': Theme.objects.get_top_theme(current_contest),
             'contest': current_contest,
             'votes': Vote.objects.get_votes(current_contest, request.user),
         }
