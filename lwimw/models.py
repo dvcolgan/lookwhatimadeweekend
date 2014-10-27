@@ -115,7 +115,6 @@ class Rating(models.Model):
     )
     rater = models.ForeignKey(User, related_name='ratings')
     submission = models.ForeignKey(Submission, related_name='ratings')
-
     innovation = models.PositiveIntegerField(choices=RATINGS)
     refinement = models.PositiveIntegerField(choices=RATINGS)
     artistry = models.PositiveIntegerField(choices=RATINGS)
