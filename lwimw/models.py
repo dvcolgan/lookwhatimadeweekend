@@ -124,27 +124,3 @@ class Rating(models.Model):
 
     def __unicode__(self):
         return self.submission
-
-
-class Post(models.Model):
-    author = models.ForeignKey(User, related_name='posts')
-    contest = models.ForeignKey(Contest, related_name='posts')
-    creation_date = models.DateTimeField(auto_now_add=True)
-    title = models.CharField(max_length=255)
-    body = models.TextField()
-    image = models.ImageField('Image (Optional)', upload_to='post_images', blank=True, null=True)
-
-    def __unicode__(self):
-        return self.author.username + "'s post with the title of " + self.title
-
-
-class PostComment(models.Model):
-    author = models.ForeignKey(User, related_name='commenter')
-    post = models.ForeignKey(Post, related_name='posts_commented')
-    comment_replied = models.ForeignKey("self", related_name='comment_replied_to', blank=True, null=True)
-    creation_date = models.DateTimeField(auto_now_add=True)
-    body = models.TextField()
-    comment_level = models.IntegerField(default=12)
-
-    def __unicode__(self):
-        return self.author.username + "'s comment on the post by " + self.post.author.username + " with the title " + self.post.title

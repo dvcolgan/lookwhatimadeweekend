@@ -8,6 +8,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.decorators import *
 from django.shortcuts import _get_queryset
 from lwimw.models import *
+from blog.models import *
 from lwimw.forms import *
 from util.functions import *
 from django.contrib.auth import authenticate, login
@@ -24,7 +25,7 @@ import datetime
 
 def home(request):
     current_contest = RequestContext(request)['current_contest']
-    post_list = Post.objects.order_by('-creation_date')
+    post_list = Post.objects.order_by('-creation_date').filter(deleted=False)
     paginator = Paginator(post_list, 20)
     page = request.GET.get('page')
     try:
@@ -42,10 +43,10 @@ def guidelines(request):
 def profile(request, user_id=None):
     if user_id == None:
         return HttpResponseRedirect(reverse('profile', args=(request.user.id,)))
-    user = get_object_or_404(User, id=user_id)
-    submissions = user.submissions.order_by('contest')
-    posts = Post.objects.select_related().filter(author=user)
-    comments = PostComment.objects.filter(author=user)
+    profile_user = get_object_or_404(User, id=user_id)
+    submissions = profile_user.submissions.order_by('contest')
+    posts = Post.objects.filter(author=profile_user, deleted=False)
+    comments = PostComment.objects.filter(author=profile_user, deleted=False, post__deleted=False)
     return render(request, 'profile.html', locals())
 
 def irc(request):
@@ -111,55 +112,3 @@ def submissions_list(request, number):
 
     return render(request, 'submissions_list.html', locals())
 
-@login_required
-def post_list(request):
-    posts = Post.objects.filter(author=request.user)
-    return render(request, 'post_list.html', locals())
-
-@login_required
-def post_create(request):
-    current_contest = RequestContext(request)['current_contest']
-    if request.method == 'POST':
-        form = CreatePostForm(request.POST, request.FILES)
-        form.instance.contest = current_contest
-        form.instance.author = request.user
-        if form.is_valid():
-            form.save()
-            messages.add_message(request, messages.SUCCESS, 'Your post has been published!')
-            return HttpResponseRedirect(reverse('profile'))
-    else:
-        form = CreatePostForm()
-    return render(request, 'post_create.html', locals())
-
-@login_required
-def post_edit(request, post_id):
-    current_contest = RequestContext(request)['current_contest']
-    post = get_object_or_404(Post, id=post_id)
-    if post.author.pk != request.user.pk:
-        return redirect('home')
-    if request.method == 'POST':
-        form = CreatePostForm(request.POST, request.FILES, instance=post)
-        form.instance.author = request.user
-        if form.is_valid():
-            form.save()
-            messages.add_message(request, messages.SUCCESS, 'Your post has updated successfully!')
-            return HttpResponseRedirect(reverse('profile'))
-    else:
-        form = CreatePostForm(instance=post)
-    return render(request, 'post_edit.html', locals())
-
-def post_detail(request, post_id):
-    current_contest = RequestContext(request)['current_contest']
-    post = get_object_or_404(Post, id=post_id)
-    if request.method == 'POST':
-        form = CreatePostCommentForm(request.POST)
-        form.instance.author = request.user
-        form.instance.post = post
-        if form.is_valid():
-            form.save()
-            messages.add_message(request, messages.SUCCESS, 'Your comment has been added!')
-            return HttpResponseRedirect(reverse('post_detail', args=(post.id,)))
-    else:
-        form = CreatePostCommentForm()
-        comments = PostComment.objects.all().select_related().filter(post=post)
-    return render(request, 'post_detail.html', locals())

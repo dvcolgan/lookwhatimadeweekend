@@ -9,3 +9,7 @@ If you are into making things, check out [http://lookwhatimadeweekend.com](http:
 [twitch.tv/dvcolgan](http://twitch.tv/dvcolgan)
 
 [@davidscolgan](https://twitter.com/davidscolgan)
+
+# Contributing
+
+Contributing to LWIMW is easy, just fork the repository, and then create a new branch that will house your changes. DO NOT PUSH TO MASTER OR DEV. I will merge the change into dev and then later master.

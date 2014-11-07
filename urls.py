@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, include, url
+from django.conf import settings
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -7,6 +8,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url(r'', include('lwimw.urls')),
     url(r'themes/', include('themevoting.urls')),
+    url(r'^posts/', include('blog.urls')),
     url(r'^accounts/', include('registration.backends.default.urls')),
 
     url(r'^account/password-change/$', 'django.contrib.auth.views.password_change', name='password_change'),
@@ -19,3 +21,7 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
 )
+if settings.DEBUG:
+    # static files (images, css, javascript, etc.)
+    urlpatterns += patterns('',
+        (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}))
