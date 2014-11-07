@@ -88,6 +88,9 @@ form.narrow {
 .post img {
   max-width: 100%;
 }
+.content img {
+  max-width: inherit;
+}
 .panel-default > .panel-heading {
   background-color: #428bca;
   color: white;
