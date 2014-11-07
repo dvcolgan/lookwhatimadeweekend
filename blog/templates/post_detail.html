@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load custom_tags %}
+{% load bootstrap %}
+{% load humanize %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block body_class %}post_detail{% endblock %}
+ 
+{% block content %}
+    <h2>{{ post.title }}</h2>
+    <p>By <a href="/profile/{{ post.author.id }}/" title="{{ post.author }}">{{ post.author }}</a> on {{ post.creation_date|naturaltime }}</p>
+    {{ post.body|markdown }}
+    {% if post.image %}<img src="{{ post.image.url }}" class="img-responsive" />{% endif %}
+    <hr />
+    {% if user.is_authenticated %}
+        <h4>Add your own comment!</h4>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form|bootstrap }}
+            <input type="submit" class="btn btn-success" value="Add Comment" />
+        </form>
+        <hr />
+    {% endif %}
+    {% if post.comments.all %}
+        <div id="comments">
+            <h3>Comments</h3>
+            {% for comment in post.comments.all %}
+                <br>
+                <div class="row" id="comment{{comment.id}}">
+                    <div class="col-lg-{% if comment.comment_level <= 12 %}{{ comment.comment_level }}{% else %}12{% endif %} pull-right {% if comment.comment_replied %} comment-reply{% endif %}">
+                        <h3 class="page-header">Comment by <a href="/profile/{{comment.author.id}}/" title="{{ comment.author }}">{{ comment.author }}</a> {% if comment.comment_replied %} in reply to {{ comment.comment_replied.author.username }}'s <a href="#comment{{comment.comment_replied.id}}" title="comment">comment</a>{% endif %}</h3>
+                        <h4>{{ comment.creation_date|naturaltime }}</h4>
+                        <p>{{ comment.body|markdown|removetags:"img"|safe }}</p>
+                        <br />
+                        {% if user.is_authenticated %}
+                            <a href="#reply" title="Reply" class="reply"><i class="glyphicon glyphicon-share-alt glyphicon-flipped"></i> Reply</a>
+                            <div id="reply-form" style="display: none;">
+                                <form action="/posts/comment/reply/" method="POST">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="comment_level" value="{{ comment.comment_level }}">
+                                    <input type="hidden" name="comment_replied" value="{{ comment.id }}">
+                                    <input type="hidden" name="post" value="{{ post.id }}">
+                                    <div class="form-group">
+                                        <label class="control-label" for="reply-body">Reply Body</label>
+                                        <div>
+                                            <textarea class="form-control" cols="40" id="reply-body" name="body" rows="10"></textarea>
+                                        </div>
+                                    </div>
+                                    <input type="submit" class="btn btn-success" value="Reply" />
+                                </form>
+                            </div>
+                            {% if comment.author == user %}
+                                <a href="#delete" title="Delete" class="delete" data-object-id="{{ comment.id }}" data-object-name="Your comment on {{ comment.post.title }} by {{ comment.post.author.username }}" data-object-url="/posts/comment/delete/"><i class="glyphicon glyphicon-trash"></i> Delete</a>
+                            {% endif %}
+                        {% endif %}
+                        <hr />
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}
+

@@ -1,6 +1,5 @@
 Todo
 ------
-make it so you can automatically add your stream to the sidebar
 
 system in place for showing the results - who wins which category
 
@@ -18,8 +17,6 @@ some way of contacting an admin to delete posts
 sometime make the theme jam and have it be the jam jam
 
 allow embeds of unit or other things (videos) on submissions
-
-add the subreddit to the site
 
 make it so you can't judge until the judging period
 ability to name links on a submission
@@ -41,14 +38,9 @@ have this on the sidebar, show the categories, have a link to submit a category
 http://toopay.github.io/bootstrap-markdown/
 http://hackerwins.github.io/summernote/
 
-upside down
-tilt
-shatter
-rust
-relative
-surreal
-ice
-slippery slope
+Add badges to users.
+Add nicknames to users.
+Add gravatar to users.
 
 
 Done
@@ -65,5 +57,6 @@ Done
 -add this irc? https://kiwiirc.com/
 -detail page for submissions aside from the edit page
 -non-logged in users can view posts and submissions
-
-
+add the subreddit to the site
+make it so you can automatically add your stream to the sidebar
+Added humans.txt

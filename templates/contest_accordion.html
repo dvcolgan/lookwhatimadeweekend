@@ -1,69 +1,73 @@
 <div class="widget">
     <div class="panel-group" id="accordion">
-        {% for contest in contests %}
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" href="#collapse-{{ forloop.counter0 }}">
-                            LWIMW {{ contest.number }} - {{ contest.start }}
-                        </a>
-                    </h4>
-                </div>
-                <div id="collapse-{{ forloop.counter0 }}" class="panel-collapse collapse{% if forloop.counter0 == 0 or forloop.counter0 == 1 %} in{% endif %}">
-                    <div class="panel-body">
-                        <h4>Theme: {{ contest.theme }}</h4>
-                        {% with contest_state=contest.get_current_state %}
-                            {% if contest_state == 'before' %}
-                                <h4>Contest Starts In:</h4>
-                            {% elif contest_state == 'during' %}
-                                <h4>Contest Ends In:</h4>
-                            {% elif contest_state == 'submitting' %}
-                                <h4>Submission Ends In:</h4>
-                            {% elif contest_state == 'judging' %}
-                                <h4>Judging Ends In:</h4>
-                            {% elif contest_state == 'after' %}
-                                <h4>Contest is Closed</h4>
-                            {% endif %}
-                            {% if contest_state != 'after' %}
-                            <div id="countdown-timer" class="clearfix mbs"
-                                 data-state="{{ contest_state }}"
-                                 data-start="{{ current_contest.start.isoformat }}"
-                                 data-end="{{ current_contest.get_end_time.isoformat }}"
-                                 data-submission="{{ current_contest.get_submission_time.isoformat }}"
-                                 data-judging="{{ current_contest.get_judging_time.isoformat }}">
-                            </div>
-                            {% endif %}
+        {% if contests %}
+            {% for contest in contests %}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" href="#collapse-{{ forloop.counter0 }}">
+                                LWIMW {{ contest.number }} - {{ contest.start }}
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapse-{{ forloop.counter0 }}" class="panel-collapse collapse{% if forloop.counter0 == 0 or forloop.counter0 == 1 %} in{% endif %}">
+                        <div class="panel-body">
+                            <h4>Theme: {{ contest.theme }}</h4>
+                            {% with contest_state=contest.get_current_state %}
+                                {% if contest_state == 'before' %}
+                                    <h4>Contest Starts In:</h4>
+                                {% elif contest_state == 'during' %}
+                                    <h4>Contest Ends In:</h4>
+                                {% elif contest_state == 'submitting' %}
+                                    <h4>Submission Ends In:</h4>
+                                {% elif contest_state == 'judging' %}
+                                    <h4>Judging Ends In:</h4>
+                                {% elif contest_state == 'after' %}
+                                    <h4>Contest is Closed</h4>
+                                {% endif %}
+                                {% if contest_state != 'after' %}
+                                <div id="countdown-timer" class="clearfix mbs"
+                                     data-state="{{ contest_state }}"
+                                     data-start="{{ current_contest.start.isoformat }}"
+                                     data-end="{{ current_contest.get_end_time.isoformat }}"
+                                     data-submission="{{ current_contest.get_submission_time.isoformat }}"
+                                     data-judging="{{ current_contest.get_judging_time.isoformat }}">
+                                </div>
+                                {% endif %}
 
-                            {% if request.user.is_authenticated %}
+                                {% if request.user.is_authenticated %}
+                                    {% if contest_state != 'before' %}
+                                        <a class="btn btn-success btn-lg btn-block" href="{% url 'submission_detail' contest.number request.user.id %}">
+                                            {% if contest_state == 'during' or contest_state == 'submitting' %}
+                                                Edit Your Submission
+                                            {% elif contest_state != 'before' %}
+                                                View Your Submission
+                                            {% endif %}
+
+                                            {% comment %}
+                                            if you didn't make a submission in a past contest, the view my submission will say forbidden
+                                            {% elif contest_state != 'before' and request.user.submissions in contest.submissions.all %}
+                                            {% endcomment %}
+                                        </a>
+                                    {% endif %}
+                                {% endif %}
                                 {% if contest_state != 'before' %}
-                                    <a class="btn btn-success btn-lg btn-block" href="{% url 'submission_detail' contest.number request.user.id %}">
-                                        {% if contest_state == 'during' or contest_state == 'submitting' %}
-                                            Edit Your Submission
-                                        {% elif contest_state != 'before' %}
-                                            View Your Submission
+                                    <a class="btn btn-primary btn-lg btn-block" href="{% url 'submissions_list' contest.number %}">
+                                        {% if contest_state == 'judging' and contest.can_vote %}
+                                            Rate Submissions
+                                        {% else %}
+                                            View All Submissions
                                         {% endif %}
-
-                                        {% comment %}
-                                        if you didn't make a submission in a past contest, the view my submission will say forbidden
-                                        {% elif contest_state != 'before' and request.user.submissions in contest.submissions.all %}
-                                        {% endcomment %}
                                     </a>
                                 {% endif %}
-                            {% endif %}
-                            {% if contest_state != 'before' %}
-                                <a class="btn btn-primary btn-lg btn-block" href="{% url 'submissions_list' contest.number %}">
-                                    {% if contest_state == 'judging' and contest.can_vote %}
-                                        Rate Submissions
-                                    {% else %}
-                                        View All Submissions
-                                    {% endif %}
-                                </a>
-                            {% endif %}
-                        {% endwith %}
+                            {% endwith %}
+                        </div>
                     </div>
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        {% else %}
+            <h3 class="not-found">There are currently no contests.</h3>
+        {% endif %}
     </div>
 </div>
 

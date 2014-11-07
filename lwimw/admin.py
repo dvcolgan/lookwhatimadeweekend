@@ -13,14 +13,7 @@ class SubmissionAdmin(admin.ModelAdmin):
     list_display = ('title', 'user', 'contest', 'receive_ratings', 'category')
 
 
-class PostAdmin(admin.ModelAdmin):
-    list_filter = ('contest', 'author')
-    list_display = ('author', 'contest', 'creation_date', 'title')
-
-
 admin.site.register(Contest)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Submission, SubmissionAdmin)
 admin.site.register(Rating)
-admin.site.register(Post, PostAdmin)
-admin.site.register(PostComment)
