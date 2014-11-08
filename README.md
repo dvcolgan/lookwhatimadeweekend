@@ -12,4 +12,4 @@ If you are into making things, check out [http://lookwhatimadeweekend.com](http:
 
 # Contributing
 
-Contributing to LWIMW is easy, just fork the repository, and then create a new branch that will house your changes. DO NOT PUSH TO MASTER OR DEV. I will merge the change into dev and then later master.
+I need to make it easier to contribute.  Please hold.

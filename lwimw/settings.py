@@ -2,10 +2,7 @@ import os
 import socket
 from django.contrib.messages import constants as message_constants
 
-PROJECT_DIR = os.path.dirname(__file__)
-
-DEBUG = True
-TEMPLATE_DEBUG = DEBUG
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 from private import SECRET_KEY, POSTMARK_API_KEY
 
@@ -31,28 +28,20 @@ DATABASES = {
     }
 }
 
-ALLOWED_HOSTS = ['lookwhatimadeweek.com', 'lwimw.lessboring.com']
-DEBUG = False
-SITE_DOMAIN = 'lookwhatimadeweek.com'
-SERVER = 'testing'
 
 # Override prod settings here using your dev host name
-
-# dvcolgan
-if HOSTNAME == 'impetus':
+if HOSTNAME == 'fire-star' or HOSTNAME == 'boa-hancock':
     DEBUG = True
-    SITE_DOMAIN = 'localhost:8000'
+    SITE_DOMAIN = 'lwimw.egg'
     SERVER = 'local'
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+elif HOSTNAME == 'luffy':
+    ALLOWED_HOSTS = ['lookwhatimadeweekend.com', 'lwimw.lessboring.com']
+    DEBUG = False
+    SITE_DOMAIN = 'lookwhatimadeweekend.com'
+    SERVER = 'testing'
 
-# stett
-elif HOSTNAME == 'boa-hancock':
-    ALLOWED_HOSTS = ['localhost']
-    DEBUG = True
-    SITE_DOMAIN = 'localhost:8000'
-    SERVER = 'local'
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
+TEMPLATE_DEBUG = DEBUG
 
 EMAIL_PORT = 25
 EMAIL_HOST_USER = POSTMARK_API_KEY
@@ -66,23 +55,19 @@ TIME_ZONE = 'America/New_York'
 LANGUAGE_CODE = 'en-us'
 SITE_ID = 1
 
-TIME_ZONE = 'America/New_York'
-LANGUAGE_CODE = 'en-us'
-SITE_ID = 1
-
 USE_I18N = False
 USE_L10N = True
 USE_TZ = True
 
-MEDIA_ROOT = os.path.join(PROJECT_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
-STATIC_ROOT = os.path.join(PROJECT_DIR, 'site-static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'site-static')
 STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL = '/'
 
 STATICFILES_DIRS = (
-    os.path.join(PROJECT_DIR, "static"),
+    os.path.join(BASE_DIR, "static"),
 )
 
 # List of finder classes that know how to find static files in
@@ -92,12 +77,6 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 
-
-import django.conf.global_settings as DEFAULT_SETTINGS
-
-TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
-    'lwimw.context_processors.common',
-)
 
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
@@ -112,16 +91,16 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'contests.middleware.CurrentContestMiddleware',
 )
 INTERNAL_IPS = ('127.0.0.1',)
 
-ROOT_URLCONF = 'urls'
+ROOT_URLCONF = 'lwimw.urls'
 
 WSGI_APPLICATION = 'wsgi.application'
 
-PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 TEMPLATE_DIRS = (
-    os.path.join(PROJECT_ROOT, "templates"),
+    os.path.join(BASE_DIR, "templates"),
 )
 
 MESSAGE_TAGS = {
@@ -131,6 +110,11 @@ MESSAGE_TAGS = {
     message_constants.WARNING: 'alert-warning',
     message_constants.ERROR: 'alert-danger',
 }
+
+import django.conf.global_settings as DEFAULT_SETTINGS
+TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
+    'django.core.context_processors.request',
+)
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -144,20 +128,13 @@ INSTALLED_APPS = (
     'widget_tweaks',
     'bootstrapform',
     'registration',
+    'contests',
     'util',
     'themevoting',
-    'lwimw',
-    'south',
-    'debug_toolbar',
     'blog',
+    #'debug_toolbar',
 )
 ACCOUNT_ACTIVATION_DAYS = 7
-#DEBUG_TOOLBAR_CONFIG = {
-#    'INTERCEPT_REDIRECTS': False,
-#}
-
-SOUTH_TESTS_MIGRATE = False
-SKIP_SOUTH_TESTS = True
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 
@@ -190,10 +167,4 @@ LOGGING = {
     }
 }
 
-#ignore the following error when using ipython:
-#/django/db/backends/sqlite3/base.py:50: RuntimeWarning:
-#SQLite received a naive datetime (2012-11-02 11:20:15.156506) while time zone support is active.
-
-import warnings
-import exceptions
-warnings.filterwarnings("ignore", category=exceptions.RuntimeWarning, module='django.db.backends.sqlite3.base', lineno=53)
+TEST_RUNNER = 'django.test.runner.DiscoverRunner'

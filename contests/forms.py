@@ -1,5 +1,5 @@
 from django import forms
-from lwimw.models import *
+from contests.models import Submission, Rating
 
 
 class SubmissionForm(forms.ModelForm):

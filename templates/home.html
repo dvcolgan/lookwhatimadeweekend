@@ -9,11 +9,11 @@
 {% block body_class %}home{% endblock %}
 
 {% block content %}
-{% if posts %}
-    {% for post in posts %}
+{% if post_list %}
+    {% for post in post_list %}
     <div class="post">
         <h2><a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a></h2>
-        <p>By <a href="/profile/{{ post.author.id }}/" title="{{ post.author }}">{{ post.author }}</a> on {{ post.creation_date|naturaltime }}&nbsp;&nbsp;<span><a href="{% url 'post_detail' post.pk %}#comments" title="View Comments"><i class="glyphicon glyphicon-comment"></i> View {{ post.comments.count }} Comments</a></span></p>
+        <p>By <a href="{% url 'profile' post.author.id %}" title="{{ post.author }}">{{ post.author }}</a> on {{ post.creation_date|naturaltime }}&nbsp;&nbsp;<span><a href="{% url 'post_detail' post.pk %}#comments" title="View Comments"><i class="glyphicon glyphicon-comment"></i> View {{ post.comments.count }} Comments</a></span></p>
         {{ post.body|markdown }}
         {% if post.image %}<img src="{{ post.image.url }}" />{% endif %}
     </div>
@@ -25,16 +25,16 @@
 
 <div class="pagination">
     <span class="step-links">
-        {% if posts.has_previous %}
-            <a href="?page={{ posts.previous_page_number }}">previous</a>
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
         {% endif %}
 
         <span class="current">
-            Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
         </span>
 
-        {% if posts.has_next %}
-            <a href="?page={{ posts.next_page_number }}">next</a>
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
         {% endif %}
     </span>
 </div>

@@ -1,11 +1,11 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import CreateView, ListView, DetailView
+from django.shortcuts import redirect, get_object_or_404
+from django.views.generic import CreateView, DetailView
 from django.core.urlresolvers import reverse_lazy
 
 from django.utils import timezone
 from braces.views import LoginRequiredMixin
-from lwimw.models import Contest
-from .models import Theme, ThemeBump, Vote
+from contests.models import Contest
+from themevoting.models import Theme, ThemeBump
 
 
 def theme_dispatch(request):

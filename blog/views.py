@@ -1,36 +1,36 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
-from django.core.urlresolvers import reverse
-from django.template import RequestContext
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from blog.forms import *
+from django.core.urlresolvers import reverse_lazy
+from blog.forms import CreatePostForm, CreatePostCommentForm
+from blog.models import Post, PostComment
+from django.views.generic import CreateView
+from braces.views import LoginRequiredMixin
 import json
 
-# Create your views here.
-@login_required
-def post_list(request):
-    posts = Post.objects.filter(author=request.user)
-    return render(request, 'post_list.html', locals())
 
-@login_required
-def post_create(request):
-    current_contest = RequestContext(request)['current_contest']
-    if request.method == 'POST':
-        form = CreatePostForm(request.POST, request.FILES)
-        form.instance.contest = current_contest
-        form.instance.author = request.user
-        if form.is_valid():
-            form.save()
-            messages.add_message(request, messages.SUCCESS, 'Your post has been published!')
-            return redirect('profile')
-    else:
-        form = CreatePostForm()
-    return render(request, 'post_create.html', locals())
+class PostCreateView(
+        LoginRequiredMixin,
+        CreateView):
+    model = Post
+    success_url = reverse_lazy('profile')
+
+    fields = [
+        'title',
+        'body',
+        'image',
+        'deleted',
+    ]
+
+    def form_valid(self, form):
+        form.instance.contest = self.request.current_contest
+        form.instance.author = self.request.user
+        return super(PostCreateView, self).form_valid(form)
+
 
 @login_required
 def post_edit(request, post_id):
-    current_contest = RequestContext(request)['current_contest']
     post = get_object_or_404(Post, id=post_id)
     if post.author.pk != request.user.pk:
         return redirect('home')
@@ -47,7 +47,6 @@ def post_edit(request, post_id):
 
 
 def post_detail(request, post_id):
-    current_contest = RequestContext(request)['current_contest']
     post = get_object_or_404(Post, id=post_id)
     if request.method == 'POST':
         form = CreatePostCommentForm(request.POST)
@@ -71,9 +70,9 @@ def post_delete(request):
         if post.author == request.user:
             post.deleted = True
             post.save()
-            return HttpResponse(json.dumps({ 'post_deleted': post.id, "post_author": post.author.username }), content_type='application/json')
-        return HttpResponse(json.dumps({ 'error': "You are not the creator of the post!" }), content_type='application/json')
-    return HttpResponse(json.dumps({ 'error': "The request was not AJAX or a POST." }), content_type='application/json')
+            return HttpResponse(json.dumps({'post_deleted': post.id, "post_author": post.author.username}), content_type='application/json')
+        return HttpResponse(json.dumps({'error': "You are not the creator of the post!"}), content_type='application/json')
+    return HttpResponse(json.dumps({'error': "The request was not AJAX or a POST."}), content_type='application/json')
 
 
 @login_required
@@ -85,16 +84,16 @@ def comment_reply(request):
         comment_level_int = int(request.POST.get("comment_level", ''))
         body = request.POST.get("body", '')
         if comment_level_int <= 12 and comment_level_int >= 6:
-            comment_level = int(request.POST.get("comment_level", '')) - 1;
+            comment_level = int(request.POST.get("comment_level", '')) - 1
         else:
             comment_level = 6
         if author and post and comment_replied and comment_level and body:
             comment = PostComment.objects.create(author=author, post=post, comment_replied=comment_replied, body=body, comment_level=comment_level)
             post.comments.add(comment)
             post.save()
-            return HttpResponse(json.dumps({ 'comment_author': author.username, 'comment_post': post.id }), content_type='application/json')
-        return HttpResponse(json.dumps({ 'error': "One or more of the values was not filled." }), content_type='application/json')
-    return HttpResponse(json.dumps({ 'error': "The request was not AJAX or a POST." }), content_type='application/json')
+            return HttpResponse(json.dumps({'comment_author': author.username, 'comment_post': post.id}), content_type='application/json')
+        return HttpResponse(json.dumps({'error': "One or more of the values was not filled."}), content_type='application/json')
+    return HttpResponse(json.dumps({'error': "The request was not AJAX or a POST."}), content_type='application/json')
 
 
 @login_required
@@ -106,6 +105,6 @@ def comment_delete(request):
             comment.post.comments.remove(comment)
             comment.post.save()
             comment.save()
-            return HttpResponse(json.dumps({ 'comment_deleted': comment.id, "comment_author": comment.author.username }), content_type='application/json')
-        return HttpResponse(json.dumps({ 'error': "You are not the creator of the comment!" }), content_type='application/json')
-    return HttpResponse(json.dumps({ 'error': "The request was not AJAX or a POST." }), content_type='application/json')
+            return HttpResponse(json.dumps({'comment_deleted': comment.id, "comment_author": comment.author.username}), content_type='application/json')
+        return HttpResponse(json.dumps({'error': "You are not the creator of the comment!"}), content_type='application/json')
+    return HttpResponse(json.dumps({'error': "The request was not AJAX or a POST."}), content_type='application/json')

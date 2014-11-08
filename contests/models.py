@@ -1,18 +1,14 @@
 from django.db import models
 from django.db.models import Avg
 from django.contrib.auth.models import User
-from django.utils import timezone
 from datetime import timedelta
 from dateutil.relativedelta import relativedelta
-
-
-def user_can_vote(user, submissions):
-    return bool(filter(lambda s: s.user.pk == user.pk, submissions))
+from util import datetime_
 
 
 class ContestManager(models.Manager):
     def get_current(self):
-        contests = self.model.objects.order_by('-start')
+        contests = self.model.objects.order_by('-number')
         if contests.exists():
             return contests[0]
         else:
@@ -29,11 +25,9 @@ class Contest(models.Model):
     def __unicode__(self):
         return 'Look What I Made Weekend %d - %s' % (self.number, self.theme)
 
-    def get_current_state(self):
-        now = timezone.now()
-        return self.get_contest_state(now)
-
-    def get_contest_state(self, now):
+    @property
+    def state(self):
+        now = datetime_.now_()
         if now < self.start:
             return 'before'
         elif now < self.start + relativedelta(hours=48):
@@ -45,24 +39,29 @@ class Contest(models.Model):
         else:
             return 'after'
 
-    def get_theme_voting_state(self, now):
+    @property
+    def theme_voting_state(self):
+        now = datetime_.now_()
         if now < self.start and now > self.start - relativedelta(hours=24):
             return 'voting'
         else:
             return 'suggesting'
 
-    def get_end_time(self):
+    @property
+    def end_time(self):
         return self.start + timedelta(hours=48)
 
-    def get_submission_time(self):
+    @property
+    def submission_time(self):
         return self.start + timedelta(hours=49)
 
-    def get_judging_time(self):
+    @property
+    def judging_time(self):
         return self.start + timedelta(hours=48 + 14 * 24)
 
-    def can_submit(self, now):
-        state = self.get_contest_state(now)
-        return state == 'during' or state == 'submitting'
+    @property
+    def can_submit(self):
+        return self.state == 'during' or self.state == 'submitting'
 
     def get_results(self):
         return (

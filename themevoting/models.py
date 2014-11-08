@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from lwimw.models import Contest
+from contests.models import Contest
 
 
 class Theme(models.Model):
@@ -20,6 +20,7 @@ class ThemeBump(models.Model):
 
 
 class Vote(models.Model):
-    user = models.ForeignKey(User, related_name='theme_votes')
+    contest = models.ForeignKey(Contest, related_name='votes')
+    user = models.ForeignKey(User, related_name='votes')
     theme = models.ForeignKey(Theme, related_name='votes')
     rating = models.IntegerField()

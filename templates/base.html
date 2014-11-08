@@ -35,6 +35,9 @@
         <div class="jumbotron header">
             <h1><a href="{% url 'home' %}"><img src="{{ STATIC_URL }}images/banner.png" alt="Look What I Made Weekend" id="banner" /></a></h1>
         </div>
+
+        {% include "contest_banner.html" %}
+
         <nav class="navbar navbar-default" role="navigation">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-header-collapse">
@@ -52,20 +55,17 @@
                     <li><a target="_blank" href="http://www.reddit.com/r/lwimw" title="LWIMW Subreddit">LWIMW Subreddit</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        Hello {% if user.is_authenticated %} {{ request.user.username }} {% else %} Creator {% endif %} <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu" role="menu">
-                        {% if request.user.is_authenticated %}
-                            <li><a href="{% url 'post_create' %}">Write a Blog Post</a></li>
-                            <li><a href="{% url 'profile' request.user.id %}">Your Profile</a></li>
-                            <li><a href="{% url 'auth_logout' %}">Logout</a></li>
-                        {% else %}
-                            <li><a href="{% url 'registration_register' %}">Create Account</a></li>
-                            <li><a href="{% url 'auth_login' %}">Log In</a></li>
-                        {% endif %}
-                    </ul>
+                    <li>
+                        <a href="#">Hello {% if user.is_authenticated %} {{ request.user.username }} {% else %} Creator {% endif %}</a>
+                    </li>
+                    {% if request.user.is_authenticated %}
+                        <li><a href="{% url 'post_create' %}">Write a Blog Post</a></li>
+                        <li><a href="{% url 'profile' request.user.id %}">Your Profile</a></li>
+                        <li><a href="{% url 'auth_logout' %}">Logout</a></li>
+                    {% else %}
+                        <li><a href="{% url 'registration_register' %}">Create Account</a></li>
+                        <li><a href="{% url 'auth_login' %}">Log In</a></li>
+                    {% endif %}
                 </ul>
             </div><!-- /.navbar-collapse -->
         </nav>
@@ -78,8 +78,6 @@
             </div>
             <div class="col-xs-4">
                 <div class="sidebar">
-                    {% include "contest_accordion.html" %}
-
                     <!-- Have this be generated and be able to put your stream in your profile -->
                     <div class="widget">
                         <iframe src="http://jordanfitz.com/lwimw/" id="streams" class="embed-responsive-item"></iframe>
@@ -89,6 +87,14 @@
                         <a class="twitter-timeline" data-dnt="true" href="https://twitter.com/LWIMW" data-widget-id="391998538340503552">Tweets by @LWIMW</a>
     <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
                     </div>
+
+                    <h3>Past Results</h3>
+
+                    <ul>
+                        {% for contest in request.contests|slice:"1:" %}
+                            <li><a href="{% url 'contest_detail' contest.number %}">LWIMW {{ contest.number }}: {{ contest.theme }}</a></li>
+                        {% endfor %}
+                    </ul>
 
                 </div>
             </div>

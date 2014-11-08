@@ -11,6 +11,9 @@ Site: http://tinfoilboy.com
 Name: CorstiaanHol
 Site: http://corstiaanhol.nl/
 
+Name: Stett
+Site: http://tallrhinoceros.com
+
 /* Site */
 Last Update: 2014/07/14
 Standards: HTML5, CSS3

@@ -3,13 +3,13 @@
 {% load bootstrap %}
 {% load humanize %}
 
-{% block title %}{{ profile_user.username|title }}'s Profile{% endblock %}
+{% block title %}{{ user.username|title }}'s Profile{% endblock %}
 
 {% block body_class %}profile{% endblock %}
 
 {% block content %}
 <div class="post">
-    <h2>{{ profile_user.username }}'s profile</h2>
+    <h2>{{ user.username }}'s profile</h2>
     {% if not submissions and not posts and not comments %}
         <h3>This user has not done anything on the site. But that might change...</h3>
     {% endif %}

@@ -1,0 +1,45 @@
+<div class="current-contest-banner">
+    <h2 style="font-family: 'Comic Sans MS'"><marquee>
+        Look What I Made Weekend
+        {{ request.current_contest.number }}!
+        Theme:
+        {{ request.current_contest.theme }}
+    </marquee></h2>
+
+        {% if request.current_contest.state == 'before' %}
+            <h4>Contest Starts In:</h4>
+        {% elif request.current_contest.state == 'during' %}
+            <h4>Contest Ends In:</h4>
+        {% elif request.current_contest.state == 'submitting' %}
+            <h4>Submission Ends In:</h4>
+        {% elif request.current_contest.state == 'judging' %}
+            <h4>Judging Ends In:</h4>
+        {% elif request.current_contest.state == 'after' %}
+            <h4>Contest is Closed</h4>
+        {% endif %}
+
+        <div id="countdown-timer" class="clearfix mbs"
+                data-state="     {{ request.current_contest.state }}"
+                data-start="     {{ request.current_contest.start.isoformat }}"
+                data-end="       {{ request.current_contest.end_time.isoformat }}"
+                data-submission="{{ request.current_contest.submission_time.isoformat }}"
+                data-judging="   {{ request.current_contest.judging_time.isoformat }}">
+        </div>
+
+    <div class="btn-toolbar mb20">
+        <a class="btn btn-success btn-lg" href="{% url 'submission_detail' request.current_contest.number request.user.id %}">
+            {% if request.current_contest.state == 'during' or request.current_contest.state == 'submitting' %}
+                Edit Your Submission
+            {% else %}
+                View Your Submission
+            {% endif %}
+        </a>
+        <a class="btn btn-primary btn-lg" href="{% url 'contest_detail' request.current_contest.number %}">
+            {% if request.current_contest.state == 'judging' and request.current_contest.can_vote %}
+                Rate Submissions
+            {% else %}
+                View All Submissions
+            {% endif %}
+        </a>
+    </div>
+</div>

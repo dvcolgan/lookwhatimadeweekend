@@ -1,8 +1,5 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
-from django.contrib.auth.forms import ReadOnlyPasswordHashField
-from django import forms
-from lwimw.models import *
+from contests.models import Contest, Category, Submission, Rating
 
 
 class CategoryAdmin(admin.ModelAdmin):

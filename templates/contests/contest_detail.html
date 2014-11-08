@@ -70,8 +70,6 @@
                 </table>
             {% endfor %}
             {% endcomment %}
-        {% elif current_state == 'before' %}
-            
         {% endif %}
     {% endwith %}
 
@@ -85,7 +83,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for submission in submissions %}
+            {% for submission in contest.submissions.all %}
             <tr>
                 <td><a href="{% url 'submission_detail' contest.number submission.user.id %}">{{ submission.title }}</a></td>
                 <td><a href="{% url 'profile' submission.user.id %}">{{ submission.user }}</a></td>
