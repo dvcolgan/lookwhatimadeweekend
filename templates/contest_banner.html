@@ -1,10 +1,18 @@
 <div class="current-contest-banner">
+    {% comment %}
     <h2 style="font-family: 'Comic Sans MS'"><marquee><abbr title="LETS MARQUEE LIKE ITS 1995!">
         Look What I Made Weekend
         {{ request.current_contest.number }}!
         Theme:
         {{ request.current_contest.theme }}
     </abbr></marquee></h2>
+    {% endcomment %}
+    <h2>
+        Look What I Made Weekend
+        {{ request.current_contest.number }}!
+        Theme:
+        {{ request.current_contest.theme }}
+    </h2>
 
     {% if request.current_contest.state == 'before' %}
         <h4>Contest Starts In:</h4>
