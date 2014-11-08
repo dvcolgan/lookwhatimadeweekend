@@ -10,6 +10,7 @@
 {% block content %}
 <div class="post">
     <h2>{{ user.username }}'s profile</h2>
+
     {% if not submissions and not posts and not comments %}
         <h3>This user has not done anything on the site. But that might change...</h3>
     {% endif %}
@@ -33,8 +34,13 @@
                 {% endfor %}
         </table>
     {% endif %}
+
+    {% if user_id != request.user.id %}
+    <a class="pull-right btn btn-warning btn-lg" href="{% url 'post_create' %}">Write a Blog Post for LWIMW {{ current_contest.number }}</a>
+    {% endif %}
+    <h3>Blog Posts</h3>
+
     {% if posts %}
-        <h3>Blog Posts</h3>
         <table class="table">
             <thead>
                 <tr>
@@ -45,7 +51,7 @@
             <tbody>
                 {% for post in posts %}
                 <tr>
-                    <td><a href="{% if post.author == user %}{% url 'post_edit' post.id %}{% elif post.author != user %}{% url 'post_detail' post.id %}{% endif %}">{{ post.title }}</a></td>
+                    <td><a href="{% if post.author == user %}{% url 'post_detail' post.id %}{% elif post.author != user %}{% url 'post_detail' post.id %}{% endif %}">{{ post.title }}</a></td>
                     <td>{{ post.contest.number }}</td>
                     {% if post.author == user %}
                         <td><a href="#delete" title="Delete" class="delete" data-object-id="{{ post.id }}" data-object-name="{{ post.title }}" data-object-url="/posts/delete/"><i class="glyphicon glyphicon-trash"></i> Delete</a></td>
@@ -53,7 +59,10 @@
                 </tr>
                 {% endfor %}
         </table>
+    {% else %}
+        <p>You have not yet written any blog posts.</p>
     {% endif %}
+
     {% if comments %}
         <h3>Comments</h3>
         <table class="table">
@@ -71,9 +80,6 @@
                 </tr>
                 {% endfor %}
         </table>
-    {% endif %}
-    {% if user_id != request.user.id %}
-    <a class="btn btn-warning btn-lg" href="{% url 'post_create' %}">Write a Blog Post for LWIMW {{ current_contest.number }}</a>
     {% endif %}
 </div>
 {% endblock %}
