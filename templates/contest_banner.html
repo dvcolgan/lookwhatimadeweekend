@@ -37,15 +37,6 @@
             </div>
         </div>
         <div class="col-xs-4">
-            <a class="btn btn-success btn-lg btn-block" href="{% url 'submission_detail' request.current_contest.number request.user.id %}">
-                {% if request.current_contest.state == 'during' or request.current_contest.state == 'submitting' %}
-                    Edit Your Submission
-                {% else %}
-                    View Your Submission
-                {% endif %}
-            </a>
-        </div>
-        <div class="col-xs-4">
             <a class="btn btn-primary btn-lg btn-block" href="{% url 'contest_detail' request.current_contest.number %}">
                 {% if request.current_contest.state == 'judging' and request.current_contest.can_vote %}
                     Rate Submissions
@@ -53,6 +44,17 @@
                     View All Submissions
                 {% endif %}
             </a>
+        </div>
+        <div class="col-xs-4">
+            {% if request.user.is_authenticated %}
+            <a class="btn btn-success btn-lg btn-block" href="{% url 'submission_detail' request.current_contest.number request.user.id %}">
+                {% if request.current_contest.state == 'during' or request.current_contest.state == 'submitting' %}
+                    Edit Your Submission
+                {% else %}
+                    View Your Submission
+                {% endif %}
+            </a>
+            {% endif %}
         </div>
     </div>
 
