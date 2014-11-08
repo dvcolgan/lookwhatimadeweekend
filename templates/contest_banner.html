@@ -15,18 +15,18 @@
     </h2>
 
     {% if request.current_contest.state == 'before' %}
-        <h4>Contest Starts In:</h4>
+        <h4 style="display: inline-block;">Contest Starts In:</h4>
     {% elif request.current_contest.state == 'during' %}
-        <h4>Contest Ends In:</h4>
+        <h4 style="display: inline-block;">Contest Ends In:</h4>
     {% elif request.current_contest.state == 'submitting' %}
-        <h4>Submission Ends In:</h4>
+        <h4 style="display: inline-block;">Submission Ends In:</h4>
     {% elif request.current_contest.state == 'judging' %}
-        <h4>Judging Ends In:</h4>
+        <h4 style="display: inline-block;">Judging Ends In:</h4>
     {% elif request.current_contest.state == 'after' %}
-        <h4>Contest is Closed</h4>
+        <h4 style="display: inline-block;">Contest is Closed</h4>
     {% endif %}
 
-    <div class="row">
+    <div class="row" style="display: inline-block; width: 54em; vertical-align: middle; margin: 0;">
         <div class="col-xs-4">
             <div id="countdown-timer" class="clearfix mbs"
                     data-state="{{ request.current_contest.state }}"
