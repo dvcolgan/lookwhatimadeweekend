@@ -4,7 +4,8 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse_lazy
 from blog.forms import CreatePostForm, CreatePostCommentForm
-from blog.models import Post, PostComment
+from blog.models import Post
+from comments.models import Comment
 from django.views.generic import CreateView
 from braces.views import LoginRequiredMixin
 import json
@@ -80,7 +81,7 @@ def comment_reply(request):
     if request.method == 'POST' and request.is_ajax():
         author = request.user
         post = get_object_or_404(Post, id=request.POST.get("post", ''))
-        reply = get_object_or_404(PostComment, id=request.POST.get("comment_replied", ''))
+        reply = get_object_or_404(Comment, id=request.POST.get("comment_replied", ''))
         comment_level_int = int(request.POST.get("comment_level", ''))
         body = request.POST.get("body", '')
         if comment_level_int <= 12 and comment_level_int >= 6:
@@ -88,7 +89,7 @@ def comment_reply(request):
         else:
             comment_level = 6
         if author and post and reply and comment_level and body:
-            comment = PostComment.objects.create(author=author, post=post, reply=reply, body=body, comment_level=comment_level)
+            comment = Comment.objects.create(author=author, reply=reply, body=body, comment_level=comment_level)
             post.comments.add(comment)
             post.save()
             return HttpResponse(json.dumps({'comment_author': author.username, 'comment_post': post.id}), content_type='application/json')
@@ -99,7 +100,7 @@ def comment_reply(request):
 @login_required
 def comment_delete(request):
     if request.method == 'POST' and request.is_ajax():
-        comment = get_object_or_404(PostComment, id=request.POST.get("id", ''))
+        comment = get_object_or_404(Comment, id=request.POST.get("id", ''))
         if comment.author == request.user:
             comment.delete()
             return HttpResponse(json.dumps({'comment_deleted': comment.id, "comment_author": comment.author.username}), content_type='application/json')

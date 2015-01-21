@@ -8,7 +8,9 @@
 {% block body_class %}post_detail{% endblock %}
  
 {% block content %}
+{% if post.author.pk == request.user.pk %}
 <a class="btn btn-primary pull-right" href="{% url 'post_edit' post.pk %}"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
+{% endif %}
 <h2>{{ post.title }}</h2>
 
 <p>By <a href="/profile/{{ post.author.id }}/" title="{{ post.author }}">{{ post.author }}</a> on {{ post.creation_date|naturaltime }}</p>

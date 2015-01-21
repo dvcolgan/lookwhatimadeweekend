@@ -1,0 +1,2 @@
+replace lwimw app with respective apps
+change contests.Submission.comments to description

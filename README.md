@@ -10,8 +10,6 @@ If you are into making things, check out [http://lookwhatimadeweekend.com](http:
 
 # Contributing
 
-I need to make it easier to contribute.  Please hold.
-
 Special thanks to everyone who has contributed to this code base:
 
 * tinfoilboy

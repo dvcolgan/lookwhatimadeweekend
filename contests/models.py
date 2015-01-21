@@ -90,13 +90,17 @@ class Submission(models.Model):
     contest = models.ForeignKey(Contest, related_name='submissions')
     title = models.CharField(max_length=255)
     category = models.ForeignKey(Category, related_name='submissions')
-    comments = models.TextField(blank=True)
+    description = models.TextField(blank=True)
     link_1 = models.CharField("Link 1 (Optional)", max_length=255, blank=True, null=True)
     link_2 = models.CharField("Link 2 (Optional)", max_length=255, blank=True, null=True)
     link_3 = models.CharField("Link 3 (Optional)", max_length=255, blank=True, null=True)
     image_1 = models.ImageField("Image 1 (Optional)", upload_to='submission_images', blank=True, null=True)
     image_2 = models.ImageField("Image 2 (Optional)", upload_to='submission_images', blank=True, null=True)
     image_3 = models.ImageField("Image 3 (Optional)", upload_to='submission_images', blank=True, null=True)
+
+    images = models.ManyToManyField('uploadedimages.UploadedImage', related_name='submissions')
+    comments = models.ManyToManyField('comments.Comment', related_name='submissions')
+
     receive_ratings = models.BooleanField('Allow others to rate my entry', default=True)
 
     def __unicode__(self):

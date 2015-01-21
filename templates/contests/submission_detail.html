@@ -14,7 +14,7 @@
     <h2>{{ submission.title }}</h2>
     <h3>{{ submission.user.username }} &mdash; {{ submission.category }}</h3>
 
-    {{ submission.comments|markdown }}
+    {{ submission.description|markdown }}
 
     <h3>Links to {{ submission.user.username }}'s Submission:</h3>
     {% if submission.link_1 %}<p><a target="_blank" rel="nofollow" href="{{ submission.link_1 }}">{{ submission.link_1 }}</a></p>{% endif %}

@@ -9,7 +9,7 @@
 {% block content %}
 <div class="post">
     <h2>Look What I Made Weekend {{ contest.number }}</h2>
-    {% with current_state=contest.get_current_state %}
+    {% with current_state=contest.state %}
         {% if current_state == 'judging' %}
             <p>Voting is now <strong>open</strong>.</p>
             {% if can_vote %} 
@@ -20,30 +20,34 @@
         {% elif current_state == 'after' %}
             <h3>Results</h3>
 
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Creator</th>
-                            <th>Innovation</th>
-                            <th>Refinement</th>
-                            <th>Artistry</th>
-                            <th>Overall</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for submission in contest.get_results %}
-                        <tr>
-                            <td>
-                                {{ submission.user.username }}
-                            </td>
-                            <td>{{ submission.avg_innovation|floatformat:"2" }}</td>
-                            <td>{{ submission.avg_refinement|floatformat:"2" }}</td>
-                            <td>{{ submission.avg_artistry|floatformat:"2" }}</td>
-                            <td>{{ submission.avg_overall|floatformat:"2" }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Creator</th>
+                        <th>Innovation</th>
+                        <th>Refinement</th>
+                        <th>Artistry</th>
+                        <th>Overall</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for submission in contest.get_results %}
+                    <tr>
+                        <td>
+                            {{ forloop.counter }}
+                        </td>
+                        <td>
+                            {{ submission.user.username }}
+                        </td>
+                        <td>{{ submission.avg_innovation|floatformat:"2" }}</td>
+                        <td>{{ submission.avg_refinement|floatformat:"2" }}</td>
+                        <td>{{ submission.avg_artistry|floatformat:"2" }}</td>
+                        <td>{{ submission.avg_overall|floatformat:"2" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
 
             {% comment %}
             {% for category_results in contest.get_results %}

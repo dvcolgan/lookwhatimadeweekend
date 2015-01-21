@@ -3,19 +3,16 @@
 {% load bootstrap %}
 {% load humanize %}
 
-{% block title %}{{ user.username|title }}'s Profile{% endblock %}
+{% block title %}{{ object.username|title }}'s Profile{% endblock %}
 
 {% block body_class %}profile{% endblock %}
 
 {% block content %}
 <div class="post">
-    <h2>{{ user.username }}'s profile</h2>
+    <h2>{{ object.username|capfirst }}'s profile</h2>
 
-    {% if not submissions and not posts and not comments %}
-        <h3>This user has not done anything on the site. But that might change...</h3>
-    {% endif %}
     {% if submissions %}
-        <h3>Past Entries</h3>
+        <h3>Submissions</h3>
         <table class="table">
             <thead>
                 <tr>
@@ -35,10 +32,10 @@
         </table>
     {% endif %}
 
-    {% if user_id != request.user.id %}
-    <a class="pull-right btn btn-warning btn-lg" href="{% url 'post_create' %}">Write a Blog Post for LWIMW {{ current_contest.number }}</a>
-    {% endif %}
     <h3>Blog Posts</h3>
+    {% if object.pk == request.user.id %}
+        <a class="btn btn-warning btn-lg" href="{% url 'post_create' %}">Write a Blog Post for LWIMW {{ current_contest.number }}</a>
+    {% endif %}
 
     {% if posts %}
         <table class="table">
@@ -51,20 +48,20 @@
             <tbody>
                 {% for post in posts %}
                 <tr>
-                    <td><a href="{% if post.author == user %}{% url 'post_detail' post.id %}{% elif post.author != user %}{% url 'post_detail' post.id %}{% endif %}">{{ post.title }}</a></td>
+                    <td><a href="{% url 'post_detail' post.id %}">{{ post.title }}</a></td>
                     <td>{{ post.contest.number }}</td>
-                    {% if post.author == user %}
+                    {% if post.author.pk == request.user.pk %}
                         <td><a href="#delete" title="Delete" class="delete" data-object-id="{{ post.id }}" data-object-name="{{ post.title }}" data-object-url="/posts/delete/"><i class="glyphicon glyphicon-trash"></i> Delete</a></td>
                     {% endif %}
                 </tr>
                 {% endfor %}
         </table>
     {% else %}
-        <p>You have not yet written any blog posts.</p>
+        <p>No blog posts yet.</p>
     {% endif %}
 
+    <h3>Comments</h3>
     {% if comments %}
-        <h3>Comments</h3>
         <table class="table">
             <thead>
                 <tr>
@@ -75,11 +72,13 @@
             <tbody>
                 {% for comment in comments %}
                 <tr>
-                    <td><a href="{% url 'post_detail' comment.post.id %}#comment{{comment.id}}">{{ comment.post.title }}</a></td>
+                    <td><a href="{% url 'post_detail' comment.posts.get.id %}#comment{{comment.id}}">{{ comment.posts.get.title }}</a></td>
                     <td>{{ comment.creation_date|naturaltime }}</td>
                 </tr>
                 {% endfor %}
         </table>
+    {% else %}
+        <p>No comments yet.</p>
     {% endif %}
 </div>
 {% endblock %}

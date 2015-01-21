@@ -1,5 +1,6 @@
 from django import forms
-from blog.models import Post, PostComment
+from blog.models import Post
+from comments.models import Comment
 
 
 class CreatePostForm(forms.ModelForm):
@@ -10,5 +11,5 @@ class CreatePostForm(forms.ModelForm):
 
 class CreatePostCommentForm(forms.ModelForm):
     class Meta:
-        model = PostComment
+        model = Comment
         exclude = ('reply', 'author', 'post', 'comment_replied', 'creation_date', 'comment_level', 'deleted')

@@ -98,13 +98,16 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.humanize',
+    'django_extensions',
+    'rest_framework',
     'widget_tweaks',
     'bootstrapform',
     'registration',
     'contests',
-    'util',
-    'themevoting',
     'blog',
+    'comments',
+    'uploadedimages',
+    'util',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -115,6 +118,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'contests.middleware.CurrentContestMiddleware',
 )
 
 TEMPLATE_DIRS = (
@@ -136,3 +140,4 @@ TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
+ACCOUNT_ACTIVATION_DAYS = 7

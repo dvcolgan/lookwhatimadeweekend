@@ -6,7 +6,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from contests.models import Contest, Submission, Rating
 from contests.forms import SubmissionForm, RatingForm
-from blog.models import Post, PostComment
+from blog.models import Post
+from comments.models import Comment
 from util.functions import get_object_or_None
 
 
@@ -34,9 +35,9 @@ class ProfileView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(ProfileView, self).get_context_data(**kwargs)
-        context['submissions'] = self.request.user.submissions.order_by('contest')
-        context['posts'] = Post.objects.filter(author=self.request.user, deleted=False)
-        context['comments'] = PostComment.objects.filter(author=self.request.user, deleted=False, post__deleted=False)
+        context['submissions'] = self.object.submissions.order_by('contest')
+        context['posts'] = Post.objects.filter(author=self.object, deleted=False)
+        context['comments'] = Comment.objects.filter(author=self.object, deleted=False)
         return context
 
 
