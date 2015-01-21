@@ -4,8 +4,6 @@ Greetings and salutations most excellent Django dev.  In this repository you wil
 
 If you are into making things, check out [http://lookwhatimadeweekend.com](http://lookwhatimadeweekend.com)!
 
--David Colgan
-
 [twitch.tv/dvcolgan](http://twitch.tv/dvcolgan)
 
 [@davidscolgan](https://twitter.com/davidscolgan)
@@ -13,3 +11,10 @@ If you are into making things, check out [http://lookwhatimadeweekend.com](http:
 # Contributing
 
 I need to make it easier to contribute.  Please hold.
+
+Special thanks to everyone who has contributed to this code base:
+
+* tinfoilboy
+* Stett
+* CorstiaanHol
+* russjr08
