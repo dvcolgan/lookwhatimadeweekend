@@ -51,7 +51,7 @@
                     <td><a href="{% url 'post_detail' post.id %}">{{ post.title }}</a></td>
                     <td>{{ post.contest.number }}</td>
                     {% if post.author.pk == request.user.pk %}
-                        <td><a href="#delete" title="Delete" class="delete" data-object-id="{{ post.id }}" data-object-name="{{ post.title }}" data-object-url="/posts/delete/"><i class="glyphicon glyphicon-trash"></i> Delete</a></td>
+                        <td style="white-space: nowrap"><a href="#delete" title="Delete" class="delete" data-object-id="{{ post.id }}" data-object-name="{{ post.title }}" data-object-url="/posts/delete/"><i class="glyphicon glyphicon-trash"></i> Delete</a></td>
                     {% endif %}
                 </tr>
                 {% endfor %}
