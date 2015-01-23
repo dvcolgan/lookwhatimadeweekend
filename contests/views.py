@@ -14,7 +14,7 @@ from util.functions import get_object_or_None
 class HomeView(ListView):
     template_name = 'home.html'
     model = Post
-    paginate_by = 2
+    paginate_by = 10
 
     def get_queryset(self):
         return Post.objects.order_by('-creation_date').filter(deleted=False)
