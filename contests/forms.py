@@ -5,7 +5,7 @@ from contests.models import Submission, Rating
 class SubmissionForm(forms.ModelForm):
     class Meta:
         model = Submission
-        exclude = ('contest', 'user', 'images')
+        exclude = ('contest', 'user', 'images', 'comments')
 
 
 class RatingForm(forms.ModelForm):
