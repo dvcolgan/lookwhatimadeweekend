@@ -9,7 +9,7 @@ class Post(models.Model):
     title = models.CharField(max_length=255)
     body = models.TextField(max_length=10000)
     image = models.ImageField('Image (Optional)', upload_to='post_images', blank=True, null=True)
-    images = models.ManyToManyField('uploadedimages.UploadedImage', related_name='posts')
+    images = models.ManyToManyField('uploadedimages.UploadedImage', related_name='posts', blank=True, null=True)
     comments = models.ManyToManyField('comments.Comment', related_name='posts')
     deleted = models.BooleanField(default=False)
 

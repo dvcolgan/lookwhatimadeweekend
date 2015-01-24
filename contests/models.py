@@ -98,7 +98,7 @@ class Submission(models.Model):
     image_2 = models.ImageField("Image 2 (Optional)", upload_to='submission_images', blank=True, null=True)
     image_3 = models.ImageField("Image 3 (Optional)", upload_to='submission_images', blank=True, null=True)
 
-    images = models.ManyToManyField('uploadedimages.UploadedImage', related_name='submissions')
+    images = models.ManyToManyField('uploadedimages.UploadedImage', related_name='submissions', null=True, blank=True)
     comments = models.ManyToManyField('comments.Comment', related_name='submissions')
 
     receive_ratings = models.BooleanField('Allow others to rate my entry', default=True)
