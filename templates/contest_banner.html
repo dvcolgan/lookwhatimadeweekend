@@ -52,13 +52,11 @@
                 {% if request.user.is_authenticated %}
                     <h4>Tell us about your creation</h4>
                     <div class="btn-toolbar">
-                        <a class="btn btn-success btn-lg" href="{% url 'submission_detail' request.current_contest.number request.user.id %}">
-                            {% if request.current_contest.state == 'during' or request.current_contest.state == 'submitting' %}
-                                Edit My Entry
-                            {% else %}
-                                View My Entry
-                            {% endif %}
-                        </a>
+                        {% if request.current_contest.state == 'during' or request.current_contest.state == 'submitting' %}
+                            <a class="btn btn-success btn-lg" href="{% url 'submission_edit' request.current_contest.number %}">Edit My Entry</a>
+                        {% else %}
+                            <a class="btn btn-success btn-lg" href="{% url 'submission_detail' request.current_contest.number request.user.id %}">View My Entry</a>
+                        {% endif %}
                         <a class="btn btn-warning btn-lg" href="{% url 'post_create' %}">Write A Post</a>
                     </div>
                 {% else %}
