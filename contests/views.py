@@ -101,7 +101,7 @@ def submission_detail(request, number, user_id):
             if rating_form.is_valid():
                 rating_form.save()
                 messages.add_message(request, messages.SUCCESS, 'Your rating has been recorded!')
-                return redirect('submissions_list', number=contest.number)
+                return redirect('contest_detail', number=contest.number)
         else:
             rating_form = RatingForm(instance=rating)
 
