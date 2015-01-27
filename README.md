@@ -16,3 +16,4 @@ Special thanks to everyone who has contributed to this code base:
 * Stett
 * CorstiaanHol
 * russjr08
+* Dooskington
